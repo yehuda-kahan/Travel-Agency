@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">תיווך נסיעות</string>
+    <string name="orderTravel">הזמן נסיעה</string>
+    <string name="send">שלח</string>
+    <string name="invalid_email">אנא הכנס כתובת מייל חוקית</string>
+    <string name="password">סיסמה</string>
+    <string name="mailAddress">כתובת מייל</string>
+    <string name="or">או</string>
+    <string name="invalid_password">"אנא הכנס 6 תווים לפחות אות אחת ומספר אחד "</string>
+
+</resources>

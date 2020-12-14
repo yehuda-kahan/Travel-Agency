@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "986924212354",
+    "project_id": "travelbrokerage",
+    "storage_bucket": "travelbrokerage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986924212354:android:ac99ebca96e3c96286549b",
+        "android_client_info": {
+          "package_name": "com.example.travelbrokerage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986924212354-o520cecam3ik30dm2q0lfrca0gu0egmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWitdK9PDhInNv_GdFaGHYQnsQsRjK30o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986924212354-o520cecam3ik30dm2q0lfrca0gu0egmc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
