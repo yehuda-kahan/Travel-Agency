@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlin.concurrent.thread
 
 
 class LoginActivity : AppCompatActivity() {
@@ -44,6 +45,23 @@ class LoginActivity : AppCompatActivity() {
     fun loginOnclick(view: View) {
         if (awesomeValidation.validate()) {
             warningMassage.text = ""
+            val email = etMail.text.toString()
+            val password = etPassword.text.toString()
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+
+                        val user = mAuth.currentUser
+                        if (user?.isEmailVerified == true) {
+                            val i = Intent(this, MainActivity::class.java)
+                            startActivity(i)
+                        } else {
+                            warningMassage.text = "אנא אמת את החשבון על ידי המייל שנשלח אליך"
+                        }
+                    } else {
+                        warningMassage.text = "כתובת מייל או סיסמה אינם נכונים"
+                    }
+                }
         }
     }
 
@@ -65,22 +83,10 @@ class LoginActivity : AppCompatActivity() {
                                         "אנא אמת את החשבון על ידי המייל שנשלח אליך",
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    val thread = Thread {
-                                        while (true) {
-                                            if (user.isEmailVerified) {
-                                                val i = Intent(this, MainActivity::class.java)
-                                                startActivity(i)
-
-                                            }
-                                        }
-                                    }
-                                    thread.start()
-
-
                                 } else {
                                     Toast.makeText(
                                         applicationContext,
-                                        "שליחת האימות נכשלה. אנא נסה שנית מאוחר יותררר",
+                                        "שליחת האימות נכשלה. אנא נסה שנית מאוחר יותר",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
