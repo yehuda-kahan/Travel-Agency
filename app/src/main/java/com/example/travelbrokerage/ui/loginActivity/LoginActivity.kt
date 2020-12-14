@@ -20,14 +20,14 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var etMail : EditText
-    private lateinit var etPassword : EditText
-    private lateinit var btnLogin : MaterialButton
-    private lateinit var btnCreateAccount : MaterialButton
+    private lateinit var etMail: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btnLogin: MaterialButton
+    private lateinit var btnCreateAccount: MaterialButton
     private lateinit var awesomeValidation: AwesomeValidation
-    private lateinit var warningMassage : TextView
+    private lateinit var warningMassage: TextView
 
-    private lateinit var mAuth : FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +42,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginOnclick(view: View) {
-        if (awesomeValidation.validate()){
+        if (awesomeValidation.validate()) {
             warningMassage.text = ""
         }
     }
 
     fun createAccountOnClick(view: View) {
-        if (awesomeValidation.validate()){
+        if (awesomeValidation.validate()) {
             warningMassage.text = ""
             val email = etMail.text.toString()
             val password = etPassword.text.toString()
@@ -65,10 +65,18 @@ class LoginActivity : AppCompatActivity() {
                                         "אנא אמת את החשבון על ידי המייל שנשלח אליך",
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    if (user.isEmailVerified){
-                                        val i = Intent(this, MainActivity::class.java)
-                                        startActivity(i)
+                                    val thread = Thread {
+                                        while (true) {
+                                            if (user.isEmailVerified) {
+                                                val i = Intent(this, MainActivity::class.java)
+                                                startActivity(i)
+
+                                            }
+                                        }
                                     }
+                                    thread.start()
+
+
                                 } else {
                                     Toast.makeText(
                                         applicationContext,
