@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                                 } else {
                                     Toast.makeText(
                                         applicationContext,
-                                        "שליחת האימות נכשלה. אנא נסה שנית מאוחר יותר",
+                                        "שליחת האימות נכשלה. אנא נסה שנית מאוחר יותררר",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
