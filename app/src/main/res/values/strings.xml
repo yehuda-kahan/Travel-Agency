@@ -6,6 +6,26 @@
     <string name="password">סיסמה</string>
     <string name="mailAddress">כתובת מייל</string>
     <string name="or">או</string>
-    <string name="invalid_password">"אנא הכנס 6 תווים לפחות אות אחת ומספר אחד "</string>
+    <string name="invalid_password">"אנא הכנס 6 תווים (לועזית) לפחות אות אחת ומספר אחד"</string>
+    <string name="createAccount">צור חשבון</string>
+    <string name="login">התחבר</string>
+    <string name="welcome">ברוכים הבאים</string>
+    <string name="toBrokerage">ל תיווך נסיעות</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="costumer">הבקשות שלי</string>
+    <string name="company">חברת ההסעה</string>
+    <string name="owner">בעל האתר</string>
+    <string name="Open">שלום</string>
+    <string name="Close">סגור</string>
 
 </resources>

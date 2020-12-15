@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/RegisteredTravelsFragment"
+        android:icon="@drawable/ic__key"
+        android:title="@string/costumer"/>
+    <item android:id="@+id/CompanyTravelsFragment"
+        android:icon="@drawable/ic__key"
+        android:title="@string/company"/>
+    <item android:id="@+id/HistoryTravelsFragment"
+        android:icon="@drawable/ic__key"
+        android:title="@string/owner"/>
+</menu>

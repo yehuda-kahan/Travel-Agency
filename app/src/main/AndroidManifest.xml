@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelBrokerage">
 
-        <activity android:name=".ui.homePage.MainActivity"/>
-
-        <activity android:name=".ui.loginActivity.LoginActivity"
+        <activity android:name=".ui.homePage.MainActivity" />
+        <activity
+            android:name=".ui.loginActivity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
