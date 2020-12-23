@@ -28,8 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var etMail: EditText
     private lateinit var etPassword: EditText
-    private lateinit var btnLogin: MaterialButton
-    private lateinit var btnCreateAccount: MaterialButton
     private lateinit var awesomeValidation: AwesomeValidation
     private lateinit var warningMassage: TextView
     private lateinit var progressBar: ProgressBar
@@ -46,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         warningMassage = findViewById(R.id.tv_massage)
         progressBar = findViewById(R.id.progressBar)
 
+
         mAuth = FirebaseAuth.getInstance()
         setValidation()
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
@@ -60,27 +59,31 @@ class LoginActivity : AppCompatActivity() {
             val email = etMail.text.toString()
             val password = etPassword.text.toString()
 
-            mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        progressBar.visibility = INVISIBLE
-                        val editor = sharedPreferences.edit()
-                        editor.putString("Mail", email)
-                        editor.putString("Password", password)
-                        editor.apply()
-                        val user = mAuth.currentUser
-                        if (user?.isEmailVerified == true) {
-                            val i = Intent(this, MainActivity::class.java)
-                            startActivity(i)
-                        } else {
-                            warningMassage.text = "אנא אמת את החשבון על ידי המייל שנשלח אליך"
-                        }
-                    } else {
-                        progressBar.visibility = INVISIBLE
-                        warningMassage.text = "כתובת מייל או סיסמה אינם נכונים"
-                    }
-                }
+            login(email, password)
         }
+    }
+
+    private fun login(email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    progressBar.visibility = INVISIBLE
+                    val editor = sharedPreferences.edit()
+                    editor.putString("Mail", email)
+                    editor.putString("Password", password)
+                    editor.apply()
+                    val user = mAuth.currentUser
+                    if (user?.isEmailVerified == true) {
+                        val i = Intent(this, MainActivity::class.java)
+                        startActivity(i)
+                    } else {
+                        warningMassage.text = "אנא אמת את החשבון על ידי המייל שנשלח אליך"
+                    }
+                } else {
+                    progressBar.visibility = INVISIBLE
+                    warningMassage.text = "כתובת מייל או סיסמה אינם נכונים"
+                }
+            }
     }
 
     fun createAccountOnClick(view: View) {

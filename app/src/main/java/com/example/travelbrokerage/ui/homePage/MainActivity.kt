@@ -31,21 +31,21 @@ class MainActivity : AppCompatActivity() {
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
             override fun onDrawerClosed(view: View) {
-                supportActionBar!!.setTitle("Close")
+                supportActionBar!!.title = "Close"
                 // calling onPrepareOptionsMenu() to show action bar icons
                 supportInvalidateOptionsMenu()
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                supportActionBar!!.setTitle("Open")
+                supportActionBar!!.title = "Open"
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 supportInvalidateOptionsMenu()
             }
         }
         dl.addDrawerListener(t)
         t.syncState()
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        nv = findViewById<NavigationView>(R.id.nv)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        nv = findViewById(R.id.nv)
         nv.setNavigationItemSelectedListener(object :
             BottomNavigationView.OnNavigationItemSelectedListener,
             NavigationView.OnNavigationItemSelectedListener {
@@ -83,16 +83,4 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (t.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
-
-
-    /*private fun loadFragment(fragment: Fragment) {
-        dl.closeDrawer(nv)
-        // create a FragmentManager
-        val fm = fragmentManager
-        // create a FragmentTransaction to begin the transaction and replace the Fragment
-        val fragmentTransaction = fm.beginTransaction()
-        // replace the FrameLayout with new Fragment
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.commit() // save the changes
-    }*/
 }
