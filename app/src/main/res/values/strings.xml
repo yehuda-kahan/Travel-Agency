@@ -27,5 +27,12 @@
     <string name="owner">בעל האתר</string>
     <string name="Open">שלום</string>
     <string name="Close">סגור</string>
+    <string name="confirm">אישור</string>
+
+    <string-array name="status">
+        <item>התקבלה הצעה</item>
+        <item>התחלת נסיעה</item>
+        <item>סיום נסיעה</item>
+    </string-array>
 
 </resources>

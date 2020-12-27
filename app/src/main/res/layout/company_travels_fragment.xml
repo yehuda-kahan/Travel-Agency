@@ -6,9 +6,10 @@
     android:background="@color/green"
     tools:context=".ui.companyTravelsFragment.CompanyTravelsFragment">
 
-    <TextView
+    <ListView
+        android:id="@+id/list_view_company"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        />
 
 </FrameLayout>

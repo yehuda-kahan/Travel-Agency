@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
