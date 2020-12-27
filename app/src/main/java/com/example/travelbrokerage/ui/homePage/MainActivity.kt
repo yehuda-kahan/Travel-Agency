@@ -1,6 +1,6 @@
 package com.example.travelbrokerage.ui.homePage
 
-import androidx.fragment.app.FragmentManager
+
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -8,9 +8,9 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.ViewModelProvider
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
@@ -23,10 +23,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dl: DrawerLayout
     private lateinit var t: ActionBarDrawerToggle
     private lateinit var nv: NavigationView
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {

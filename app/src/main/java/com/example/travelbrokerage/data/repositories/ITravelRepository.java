@@ -1,7 +1,7 @@
 package com.example.travelbrokerage.data.repositories;
 
-import androidx.lifecycle.MutableLiveData;
-
+import androidx.lifecycle.LiveData;
+import com.example.travelbrokerage.data.models.ITravelDataSource;
 import com.example.travelbrokerage.data.models.Travel;
 
 import java.util.List;
@@ -12,7 +12,12 @@ public interface ITravelRepository {
 
     void updateTravel(Travel travel);
 
-    MutableLiveData<List<Travel>> getAllTravels();
+    LiveData<List<Travel>> getAllTravels();
 
-    MutableLiveData<Boolean> getIsSuccess();
+    LiveData<Boolean> getIsSuccess();
+
+    interface NotifyToTravelListListener {
+        void onTravelsChanged();
+    }
+    void setNotifyToTravelListListener(NotifyToTravelListListener l);
 }

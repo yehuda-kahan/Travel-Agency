@@ -2,6 +2,7 @@ package com.example.travelbrokerage.data.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.travelbrokerage.data.models.IHistoryDataSource;
@@ -17,7 +18,9 @@ public class TravelRepository implements ITravelRepository {
     private final ITravelDataSource  travelDataSource;
     private final IHistoryDataSource historyDataSource;
 
-    private final MutableLiveData<List<Travel>> mutableLiveData = new MutableLiveData<>();
+    private NotifyToTravelListListener notifyToTravelListListenerRepo;
+
+    //private final MutableLiveData<List<Travel>> mutableLiveData = new MutableLiveData<>();
 
     /*private static TravelRepository instance;
     public static TravelRepository getInstance(Application application) {
@@ -26,7 +29,7 @@ public class TravelRepository implements ITravelRepository {
         return instance;
     }*/
 
-    private TravelRepository(Application application) {
+    public TravelRepository(Application application) {
         travelDataSource = TravelFirebaseDataSource.getInstance();
         historyDataSource = new HistoryDataSource(application.getApplicationContext());
 
@@ -34,14 +37,23 @@ public class TravelRepository implements ITravelRepository {
             @Override
             public void onTravelsChanged() {
                 List<Travel> travelList = travelDataSource.getAllTravels();
-                mutableLiveData.setValue(travelList);
+                //mutableLiveData.setValue(travelList);
 
                 historyDataSource.clearTable();
                 historyDataSource.addTravel(travelList);
+                //Notifies viewModel of a change in the database
+                if (notifyToTravelListListenerRepo != null){
+                    notifyToTravelListListenerRepo.onTravelsChanged();
+                }
             }
         };
 
         travelDataSource.setNotifyToTravelListListener(notifyToTravelListListener);
+    }
+
+    @Override
+    public void setNotifyToTravelListListener(NotifyToTravelListListener l) {
+        notifyToTravelListListenerRepo = l;
     }
 
     @Override
@@ -55,12 +67,12 @@ public class TravelRepository implements ITravelRepository {
     }
 
     @Override
-    public MutableLiveData<List<Travel>> getAllTravels() {
-        return mutableLiveData;
+    public LiveData<List<Travel>> getAllTravels() {
+        return historyDataSource.getTravels();
     }
 
     @Override
-    public MutableLiveData<Boolean> getIsSuccess() {
+    public LiveData<Boolean> getIsSuccess() {
         return travelDataSource.getIsSuccess();
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface TravelDao {
 
     @Query("select * from travels")
-    LiveData<List<Travel>> getAll(); // TODO why liveData
+    LiveData<List<Travel>> getAll();// TODO why liveData
 
     @Query("select * from travels where travelId=:id")
     LiveData<Travel> get(String id); // TODO why liveData

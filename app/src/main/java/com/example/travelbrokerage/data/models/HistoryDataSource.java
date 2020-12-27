@@ -9,11 +9,12 @@ import java.util.List;
 public class HistoryDataSource implements IHistoryDataSource {
 
     private final TravelDao travelDao;
+    private LiveData<List<Travel>> allTravels;
 
     public HistoryDataSource(Context context) {
         RoomDataSource database = RoomDataSource.getInstance(context);
         travelDao = database.getTravelDao();
-        travelDao.clear(); // TODO why do this
+        allTravels = travelDao.getAll(); // TODO why do this
     }
 
     public LiveData<List<Travel>> getTravels() {
