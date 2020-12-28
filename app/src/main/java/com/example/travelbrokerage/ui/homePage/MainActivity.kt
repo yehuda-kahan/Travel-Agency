@@ -10,9 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.lifecycle.ViewModelProvider
 import com.example.travelbrokerage.R
-import com.example.travelbrokerage.ui.companyTravelsFragment.BlankFragment
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
 import com.example.travelbrokerage.ui.registeredTravelsFragment.RegisteredTravelsFragment

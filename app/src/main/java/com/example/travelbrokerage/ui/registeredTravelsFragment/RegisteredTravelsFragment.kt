@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.adapters.AdapterCostumer
-import com.example.travelbrokerage.ui.companyTravelsFragment.BlankFragment
 import com.example.travelbrokerage.ui.homePage.MainActivityViewModel
 import java.util.*
 
