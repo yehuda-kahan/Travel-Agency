@@ -1,21 +1,27 @@
 package com.example.travelbrokerage.data.models
 
 import android.annotation.SuppressLint
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.android.libraries.places.api.model.Place
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
+
 // Represent travel details
 // Can be stored in FireBase and/or in SqlLite through ROOM
-@Entity (tableName = "travels")
+@Entity(tableName = "travels")
 class Travel {
 
+    @NonNull
     @PrimaryKey
     var travelId: String? = null
     var clientName: String? = null
@@ -30,7 +36,7 @@ class Travel {
     @TypeConverters(UserLocationConverter::class)
     var travelLocations: MutableList<UserLocation> = arrayListOf()
 
-    @TypeConverters(RequestType::class)
+    @TypeConverters(RequestTypeConverter::class)
     var requestType: RequestType? = null
 
     @TypeConverters(DateConverter::class)
@@ -59,20 +65,32 @@ class Travel {
         }
     }
 
-    enum class RequestType(val code: Int) {
-        SENT(0), ACCEPTED(1), RUN(2), CLOSE(3), PAYMENT(4);
+    enum class RequestType {
+        SENT, ACCEPTED, RUN, CLOSE, PAYMENT;
+    }
 
-        companion object {
-            @TypeConverter
-            fun getType(numeral: Int): RequestType? {
-                for (ds in values()) if (ds.code == numeral) return ds
-                return null
-            }
+    class RequestTypeConverter {
 
-            @TypeConverter
-            fun getTypeInt(requestType: RequestType?): Int? {
-                return requestType?.code
+        @TypeConverter
+        fun getType(numeral: Int): RequestType {
+            when (numeral) {
+                1 -> return RequestType.SENT
+                2 -> return RequestType.ACCEPTED
+                3 -> return RequestType.RUN
+                4 -> return RequestType.CLOSE
             }
+            return RequestType.PAYMENT
+        }
+
+        @TypeConverter
+        fun getTypeInt(requestType: RequestType): Int {
+            when (requestType) {
+                RequestType.SENT -> return 1
+                RequestType.ACCEPTED -> return 2
+                RequestType.RUN -> return 3
+                RequestType.CLOSE -> return 4
+            }
+            return 5
         }
     }
 
@@ -119,6 +137,29 @@ class Travel {
         fun asString(warehouseUserLocation: UserLocation?): String {
             return if (warehouseUserLocation == null) "" else warehouseUserLocation.getLon()
                 .toString() + " " + warehouseUserLocation.getLat()
+        }
+    }
+
+    class UserLocationListConverter {
+
+        @TypeConverter
+        fun fromTravelLocations(TravelLocations: List<UserLocation>?): String? {
+            if (TravelLocations == null) {
+                return null
+            }
+            val gson = Gson()
+            val type: Type = object : TypeToken<List<UserLocation>?>() {}.getType()
+            return gson.toJson(TravelLocations, type)
+        }
+
+        @TypeConverter
+        fun toTravelLocations(TravelLocationsString: String): List<UserLocation>? {
+            if (TravelLocationsString == null) {
+                return null
+            }
+            val gson = Gson()
+            val type: Type = object : TypeToken<List<UserLocation?>?>() {}.getType()
+            return gson.fromJson<List<UserLocation>>(TravelLocationsString, type)
         }
     }
 

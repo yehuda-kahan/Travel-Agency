@@ -1,15 +1,19 @@
 package com.example.travelbrokerage.data.models;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.travelbrokerage.util.MyApplication;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +32,17 @@ public class TravelFirebaseDataSource implements ITravelDataSource {
 
     private NotifyToTravelListListener notifyToTravelListListener;
 
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference travels = firebaseDatabase.getReference("ExistingTravels");
+    FirebaseOptions options = new FirebaseOptions.Builder()
+            //.setApiKey("AIzaSyBRxOyIj5dJkKgAVPXRLYFkdZwh2Xxq51k") // Required for Auth.
+            .setDatabaseUrl("https://travelrequestform-401c8.firebaseio.com/") // Required for RTDB.
+            .build();
+    FirebaseApp fireApp = FirebaseApp.initializeApp(MyApplication.getAppContext(), options, "secondary");
+
+    // Retrieve my other app.
+    FirebaseApp app = FirebaseApp.getInstance("secondary");
+    // Get the database for the other app.
+    FirebaseDatabase secondaryDatabase = FirebaseDatabase.getInstance(app);
+    DatabaseReference travels = secondaryDatabase.getReference("ExistingTravels");
 
     private static TravelFirebaseDataSource instance;
 

@@ -27,6 +27,8 @@ class MainActivityViewModel(application: Application) : ViewModel() {
         })
     }
 
+    // Add travel obj to the DataBase
+    fun getTravels() : LiveData<List<Travel>> = allTravels
 
     // Add travel obj to the DataBase
     fun addTravel(travel: Travel) {
