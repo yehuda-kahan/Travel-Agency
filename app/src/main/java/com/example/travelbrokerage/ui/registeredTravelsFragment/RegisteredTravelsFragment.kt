@@ -10,21 +10,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.adapters.AdapterCostumer
-import com.example.travelbrokerage.data.models.Travel
+import com.example.travelbrokerage.ui.companyTravelsFragment.BlankFragment
 import com.example.travelbrokerage.ui.homePage.MainActivityViewModel
 import java.util.*
 
 class RegisteredTravelsFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = RegisteredTravelsFragment()
+    }
+
     private lateinit var viewModel : MainActivityViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.registered_travels_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         val listView = view?.findViewById<ListView>(R.id.list_view_costumer)
+
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         viewModel.getTravels().observe(viewLifecycleOwner, Observer { travels ->
@@ -34,9 +40,7 @@ class RegisteredTravelsFragment : Fragment() {
             val adapter = AdapterCostumer(requireContext(), tmp)
 
             //set custom adapter as adapter to our list view
-            listView!!.adapter = adapter
+            listView?.adapter = adapter
         })
-
-        return inflater.inflate(R.layout.registered_travels_fragment, container, false)
     }
 }

@@ -32,17 +32,10 @@ public class TravelFirebaseDataSource implements ITravelDataSource {
 
     private NotifyToTravelListListener notifyToTravelListListener;
 
-    FirebaseOptions options = new FirebaseOptions.Builder()
-            //.setApiKey("AIzaSyBRxOyIj5dJkKgAVPXRLYFkdZwh2Xxq51k") // Required for Auth.
-            .setDatabaseUrl("https://travelrequestform-401c8.firebaseio.com/") // Required for RTDB.
-            .build();
-    FirebaseApp fireApp = FirebaseApp.initializeApp(MyApplication.getAppContext(), options, "secondary");
 
-    // Retrieve my other app.
-    FirebaseApp app = FirebaseApp.getInstance("secondary");
     // Get the database for the other app.
-    FirebaseDatabase secondaryDatabase = FirebaseDatabase.getInstance(app);
-    DatabaseReference travels = secondaryDatabase.getReference("ExistingTravels");
+    FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
+    DatabaseReference travels = dataBase.getReference("ExistingTravels");
 
     private static TravelFirebaseDataSource instance;
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.example.travelbrokerage.R
+import com.example.travelbrokerage.ui.companyTravelsFragment.BlankFragment
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
 import com.example.travelbrokerage.ui.registeredTravelsFragment.RegisteredTravelsFragment
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {

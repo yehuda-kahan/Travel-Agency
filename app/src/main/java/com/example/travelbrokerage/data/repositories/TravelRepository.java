@@ -10,6 +10,7 @@ import com.example.travelbrokerage.data.models.ITravelDataSource;
 import com.example.travelbrokerage.data.models.HistoryDataSource;
 import com.example.travelbrokerage.data.models.Travel;
 import com.example.travelbrokerage.data.models.TravelFirebaseDataSource;
+import com.example.travelbrokerage.util.MyApplication;
 
 import java.util.List;
 
@@ -29,9 +30,9 @@ public class TravelRepository implements ITravelRepository {
         return instance;
     }*/
 
-    public TravelRepository(Application application) {
+    public TravelRepository() {
         travelDataSource = TravelFirebaseDataSource.getInstance();
-        historyDataSource = new HistoryDataSource(application.getApplicationContext());
+        historyDataSource = new HistoryDataSource(MyApplication.getAppContext());
 
         ITravelDataSource.NotifyToTravelListListener notifyToTravelListListener = new ITravelDataSource.NotifyToTravelListListener() {
             @Override

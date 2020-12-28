@@ -9,14 +9,14 @@ import com.example.travelbrokerage.data.repositories.TravelRepository
 
 
 // Represent the View Model of AddTravelActivity
-class MainActivityViewModel(application: Application) : ViewModel() {
+class MainActivityViewModel : ViewModel() {
 
     private var allTravels : LiveData<List<Travel>> = MutableLiveData()
     private var costumerList : MutableLiveData<List<Travel>> = MutableLiveData()
     private var companyList : MutableLiveData<List<Travel>> = MutableLiveData()
     private var historyList : MutableLiveData<List<Travel>> = MutableLiveData()
 
-    private var  travelRepo : ITravelRepository = TravelRepository(application)
+    private var  travelRepo : ITravelRepository = TravelRepository()
 
     init {
         allTravels = travelRepo.allTravels
