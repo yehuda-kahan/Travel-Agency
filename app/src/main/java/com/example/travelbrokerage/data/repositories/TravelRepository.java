@@ -21,6 +21,8 @@ public class TravelRepository implements ITravelRepository {
 
     private NotifyToTravelListListener notifyToTravelListListenerRepo;
 
+    private MutableLiveData<List<Travel>> allTravels = new MutableLiveData<>() ;
+
     //private final MutableLiveData<List<Travel>> mutableLiveData = new MutableLiveData<>();
 
     /*private static TravelRepository instance;
@@ -31,6 +33,7 @@ public class TravelRepository implements ITravelRepository {
     }*/
 
     public TravelRepository() {
+
         travelDataSource = TravelFirebaseDataSource.getInstance();
         historyDataSource = new HistoryDataSource(MyApplication.getAppContext());
 
@@ -39,9 +42,9 @@ public class TravelRepository implements ITravelRepository {
             public void onTravelsChanged() {
                 List<Travel> travelList = travelDataSource.getAllTravels();
                 //mutableLiveData.setValue(travelList);
-
-                historyDataSource.clearTable();
-                historyDataSource.addTravel(travelList);
+                allTravels.setValue(travelList);
+               /* historyDataSource.clearTable();
+                historyDataSource.addTravel(travelList);*/
                 //Notifies viewModel of a change in the database
                 if (notifyToTravelListListenerRepo != null){
                     notifyToTravelListListenerRepo.onTravelsChanged();
@@ -68,8 +71,8 @@ public class TravelRepository implements ITravelRepository {
     }
 
     @Override
-    public LiveData<List<Travel>> getAllTravels() {
-        return historyDataSource.getTravels();
+    public LiveData<List<Travel>> getAllTravels()  {
+         return allTravels;
     }
 
     @Override
