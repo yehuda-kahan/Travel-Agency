@@ -75,9 +75,9 @@ class AdapterCostumer(private val context: Context, private val costumerList: Ar
             addresses = geocoder.getFromLocation(location.getLat()!!, location.getLon()!!, 1)
             if (addresses.isNotEmpty()) {
                 val cityName = addresses[0].getAddressLine(0)
-                val stateName = addresses[0].getAddressLine(1)
-                val countryName = addresses[0].getAddressLine(2)
-                return "$cityName $stateName $countryName"
+                //val stateName = addresses[0].getAddressLine(1)
+                //val countryName = addresses[0].getAddressLine(2)
+                return "$cityName"
             }
             return "no place"
 
