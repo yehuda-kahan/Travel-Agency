@@ -11,7 +11,7 @@ import com.example.travelbrokerage.data.repositories.TravelRepository
 // Represent the View Model of AddTravelActivity
 class MainActivityViewModel : ViewModel() {
 
-    private var allTravels : LiveData<List<Travel>> = MutableLiveData()
+    private var travelsList : List<Travel> = ArrayList<Travel>()
     private var costumerList : MutableLiveData<List<Travel>> = MutableLiveData()
     private var companyList : MutableLiveData<List<Travel>> = MutableLiveData()
     private var historyList : MutableLiveData<List<Travel>> = MutableLiveData()
@@ -19,16 +19,20 @@ class MainActivityViewModel : ViewModel() {
     private var  travelRepo : ITravelRepository = TravelRepository()
 
     init {
-        allTravels = travelRepo.allTravels
         travelRepo.setNotifyToTravelListListener(object : ITravelRepository.NotifyToTravelListListener {
             override fun onTravelsChanged() {
-                allTravels = travelRepo.allTravels
+                travelsList = travelRepo.allTravels
+                costumerList.value = travelsList
             }
         })
     }
 
-    // Add travel obj to the DataBase
-    fun getTravels() : LiveData<List<Travel>> = allTravels
+    //
+    fun getCostumerTravels() : LiveData<List<Travel>> = costumerList
+
+    fun loadCostumerList(){
+        costumerList.value = travelsList
+    }
 
     // Add travel obj to the DataBase
     fun addTravel(travel: Travel) {
@@ -39,5 +43,15 @@ class MainActivityViewModel : ViewModel() {
     // was successfully inserted into the database
     fun getIsSuccess(): LiveData<Boolean> {
         return travelRepo.isSuccess
+    }
+
+    fun getUserList(userMail: String): List<Travel> {
+        val tempList = ArrayList<Travel>()
+        for (travel in travelsList){
+            if (travel.clientEmail == userMail){
+                tempList.add(travel)
+            }
+        }
+        return tempList
     }
 }

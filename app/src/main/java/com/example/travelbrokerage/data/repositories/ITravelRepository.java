@@ -12,7 +12,7 @@ public interface ITravelRepository {
 
     void updateTravel(Travel travel);
 
-    LiveData<List<Travel>> getAllTravels();
+    List<Travel> getAllTravels();
 
     LiveData<Boolean> getIsSuccess();
 

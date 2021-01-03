@@ -1,11 +1,14 @@
 package com.example.travelbrokerage.ui.registeredTravelsFragment
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,42 +21,39 @@ import kotlin.collections.ArrayList
 
 class RegisteredTravelsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = RegisteredTravelsFragment()
-    }
 
-    private lateinit var viewModel : MainActivityViewModel
-     lateinit var listView : ListView
-    lateinit var tmp : ArrayList()
+    private lateinit var viewModel: MainActivityViewModel
+    lateinit var listView: ListView
+    private lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.registered_travels_fragment, container, false)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        loadData()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        sharedPreferences = MyApplication.getAppContext().getSharedPreferences("USER", MODE_PRIVATE)
+        val userMail = sharedPreferences.getString("Mail", "")
+        //val userPassword = sharedPreferences.getString("Password", "")
 
         listView = view?.findViewById<ListView>(R.id.list_view_costumer)!!
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-        viewModel.getTravels().observe(viewLifecycleOwner, Observer { travels ->
-            val tmp = ArrayList(travels)
+        viewModel.getCostumerTravels().observe(viewLifecycleOwner, Observer { travels ->
+            val tmp = ArrayList(viewModel.getUserList(userMail!!))
 
             //create adapter object
             val adapter = AdapterCostumer(requireContext(), tmp)
 
             //set custom adapter as adapter to our list view
-            listView?.adapter = adapter
+            listView.adapter = adapter
         })
-    }
-
-    private fun loadData(){
-        viewModel.getTravels()
+        //viewModel.loadCostumerList()
     }
 }

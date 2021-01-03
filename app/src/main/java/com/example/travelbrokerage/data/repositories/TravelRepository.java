@@ -12,6 +12,7 @@ import com.example.travelbrokerage.data.models.Travel;
 import com.example.travelbrokerage.data.models.TravelFirebaseDataSource;
 import com.example.travelbrokerage.util.MyApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TravelRepository implements ITravelRepository {
@@ -21,7 +22,7 @@ public class TravelRepository implements ITravelRepository {
 
     private NotifyToTravelListListener notifyToTravelListListenerRepo;
 
-    private MutableLiveData<List<Travel>> allTravels = new MutableLiveData<>() ;
+    private List<Travel> travelList = new ArrayList<>();
 
     //private final MutableLiveData<List<Travel>> mutableLiveData = new MutableLiveData<>();
 
@@ -40,9 +41,9 @@ public class TravelRepository implements ITravelRepository {
         ITravelDataSource.NotifyToTravelListListener notifyToTravelListListener = new ITravelDataSource.NotifyToTravelListListener() {
             @Override
             public void onTravelsChanged() {
-                List<Travel> travelList = travelDataSource.getAllTravels();
+                travelList = travelDataSource.getAllTravels();
                 //mutableLiveData.setValue(travelList);
-                allTravels.setValue(travelList);
+
                /* historyDataSource.clearTable();
                 historyDataSource.addTravel(travelList);*/
                 //Notifies viewModel of a change in the database
@@ -71,8 +72,8 @@ public class TravelRepository implements ITravelRepository {
     }
 
     @Override
-    public LiveData<List<Travel>> getAllTravels()  {
-         return allTravels;
+    public List<Travel> getAllTravels()  {
+         return travelList;
     }
 
     @Override
