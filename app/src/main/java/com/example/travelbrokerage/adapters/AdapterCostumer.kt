@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.get
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.data.models.Travel
 import com.example.travelbrokerage.data.models.Travel.UserLocation
@@ -67,10 +68,9 @@ class AdapterCostumer(
             // MainActivity.modelArrayList.get(pos).setNumber(number)
             val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
-            currentItem.requestType = spinnerRequestType.selectedItem as Travel.RequestType
-            var hash = currentItem.company
+            currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
             if (spinnerRequestType.selectedItem == Travel.RequestType.ACCEPTED)
-                hash.put(spinnerCompany.selectedItem.toString(), true)
+                currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
             viewModel.updateTravel(currentItem)
         })
 
