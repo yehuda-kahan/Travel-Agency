@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="confirm_btn_view">1</integer>
+    <integer name="confirm_btn_pos">2</integer>
+</resources>

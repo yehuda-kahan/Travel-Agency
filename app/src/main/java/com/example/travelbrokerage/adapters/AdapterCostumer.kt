@@ -4,22 +4,23 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.data.models.Travel
 import com.example.travelbrokerage.data.models.Travel.UserLocation
+import com.example.travelbrokerage.ui.homePage.MainActivityViewModel
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AdapterCostumer(private val context: Context, private val costumerList: ArrayList<Travel>) :
+class AdapterCostumer(
+    private val context: Context,
+    private val viewModel: MainActivityViewModel,
+    private val costumerList: ArrayList<Travel>
+) :
     BaseAdapter() {
 
 
@@ -55,6 +56,23 @@ class AdapterCostumer(private val context: Context, private val costumerList: Ar
 
         initializeCompaniesSpinner(viewHolder.companies, currentItem.company)
 
+        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_view, convertView)
+        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
+        viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
+            val tempview = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_view) as View
+            // val tv = tempview.findViewById<View>(R.id.number) as TextView
+            val pos = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_pos) as Int
+            //  val number = tv.text.toString().toInt() + 1
+            //  tv.text = number.toString()
+            // MainActivity.modelArrayList.get(pos).setNumber(number)
+            val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
+            val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
+            currentItem.requestType = spinnerRequestType.selectedItem as Travel.RequestType
+            var hash = currentItem.company
+            if (spinnerRequestType.selectedItem == Travel.RequestType.ACCEPTED)
+                hash.put(spinnerCompany.selectedItem.toString(), true)
+            viewModel.updateTravel(currentItem)
+        })
 
         return convertView
     }
@@ -66,6 +84,7 @@ class AdapterCostumer(private val context: Context, private val costumerList: Ar
         var destination: TextView = view.findViewById<View>(R.id.destination) as TextView
         var date: TextView = view.findViewById<View>(R.id.date) as TextView
         var companies: Spinner = view.findViewById<View>(R.id.companies) as Spinner
+        var confirmBtn: Button = view.findViewById(R.id.btn_confirm) as Button
     }
 
     private fun getPlace(location: UserLocation): String {
@@ -88,7 +107,7 @@ class AdapterCostumer(private val context: Context, private val costumerList: Ar
     }
 
     // Initial the spinner values
-    private fun initializeCompaniesSpinner(spinner: Spinner ,companies : HashMap<String,Boolean>) {
+    private fun initializeCompaniesSpinner(spinner: Spinner, companies: HashMap<String, Boolean>) {
         val items: MutableList<String> = arrayListOf()
         for (company in companies) {
             items.add(company.key)

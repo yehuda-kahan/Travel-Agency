@@ -44,7 +44,7 @@ class RegisteredTravelsFragment : Fragment() {
             val tmp = ArrayList(travels)
 
             //create adapter object
-            val adapter = AdapterCostumer(requireContext(), tmp)
+            val adapter = AdapterCostumer(requireContext(),viewModel, tmp)
 
             //set custom adapter as adapter to our list view
             listView.adapter = adapter

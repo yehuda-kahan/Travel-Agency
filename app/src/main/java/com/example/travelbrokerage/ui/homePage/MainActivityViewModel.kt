@@ -62,4 +62,8 @@ class MainActivityViewModel : ViewModel() {
         }
         return tempList
     }
+
+    fun updateTravel(currentItem: Travel) {
+        travelRepo.updateTravel(currentItem)
+    }
 }
