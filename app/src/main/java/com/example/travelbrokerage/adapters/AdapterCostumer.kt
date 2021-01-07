@@ -2,6 +2,9 @@ package com.example.travelbrokerage.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.view.LayoutInflater
@@ -56,6 +59,7 @@ class AdapterCostumer(
         viewHolder.date.text = date
 
         initializeCompaniesSpinner(viewHolder.companies, currentItem.company)
+        initializeRequestTypeSpinner(viewHolder.status, currentItem.requestType!!)
 
         viewHolder.confirmBtn.setTag(R.integer.confirm_btn_view, convertView)
         viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
@@ -68,9 +72,13 @@ class AdapterCostumer(
             // MainActivity.modelArrayList.get(pos).setNumber(number)
             val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
-            currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
-            if (spinnerRequestType.selectedItem == Travel.RequestType.ACCEPTED)
-                currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
+
+            currentItem.requestType =
+                Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
+            if (currentItem.requestType == Travel.RequestType.ACCEPTED)//choose Accepted
+
+                if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal)
+                    currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
             viewModel.updateTravel(currentItem)
         })
 
@@ -84,6 +92,7 @@ class AdapterCostumer(
         var destination: TextView = view.findViewById<View>(R.id.destination) as TextView
         var date: TextView = view.findViewById<View>(R.id.date) as TextView
         var companies: Spinner = view.findViewById<View>(R.id.companies) as Spinner
+        var status: Spinner = view.findViewById<View>(R.id.status) as Spinner
         var confirmBtn: Button = view.findViewById(R.id.btn_confirm) as Button
     }
 
@@ -113,6 +122,55 @@ class AdapterCostumer(
             items.add(company.key)
         }
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, items)
+        spinner.adapter = adapter
+    }
+
+    private fun initializeRequestTypeSpinner(spinner: Spinner, requestType: Travel.RequestType) {
+        val requests = mutableListOf<String>(
+            "התקבלה נסיעה",
+            "התחלת נסיעה",
+            "סיום נסיעה"
+        )
+        // initialize an array adapter for spinner
+        val adapter: ArrayAdapter<String> = object :
+            ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, requests) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view: TextView = super.getDropDownView(
+                    position,
+                    convertView,
+                    parent
+                ) as TextView
+
+                // set item text bold and sans serif font
+                view.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD)
+
+                if ((requestType == Travel.RequestType.ACCEPTED && position == 0) ||
+                    (requestType == Travel.RequestType.RUN && (position==1 || position == 0 ))) {
+                    // set the spinner disabled item text color
+                    view.setTextColor(Color.LTGRAY)
+                }
+
+                // set selected item style
+                if (position == spinner.selectedItemPosition) {
+                    view.background = ColorDrawable(Color.parseColor("#F5F5F5"))
+                }
+
+                return view
+            }
+
+            override fun isEnabled(position: Int): Boolean {
+                if (requestType == Travel.RequestType.ACCEPTED && position == 0)
+                    return false
+                if (requestType == Travel.RequestType.RUN && (position == 1 || position == 0))
+                    return false
+                return true
+            }
+        }
+        // finally, data bind spinner with adapter
         spinner.adapter = adapter
     }
 }
