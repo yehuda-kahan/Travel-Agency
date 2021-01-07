@@ -45,21 +45,23 @@ public class TravelFirebaseDataSource implements ITravelDataSource {
         return instance;
     }
 
-
     private TravelFirebaseDataSource() {
         allTravelsList = new ArrayList<>();
+        travels.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataChangeInFireBase(snapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "ERROR on DataBase");
+            }
+        });
         travels.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                allTravelsList.clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Travel travel = snapshot.getValue(Travel.class);
-                        allTravelsList.add(travel);
-                    }
-                }
-                if (notifyToTravelListListener != null)
-                    notifyToTravelListListener.onTravelsChanged();
+                dataChangeInFireBase(dataSnapshot);
             }
 
             @Override
@@ -67,6 +69,19 @@ public class TravelFirebaseDataSource implements ITravelDataSource {
                 Log.e(TAG, "ERROR on DataBase");
             }
         });
+
+    }
+
+    private void dataChangeInFireBase(@NonNull DataSnapshot dataSnapshot){
+        allTravelsList.clear();
+        if (dataSnapshot.exists()) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                Travel travel = snapshot.getValue(Travel.class);
+                allTravelsList.add(travel);
+            }
+        }
+        if (notifyToTravelListListener != null)
+            notifyToTravelListListener.onTravelsChanged();
     }
 
     public void setNotifyToTravelListListener(NotifyToTravelListListener l) {

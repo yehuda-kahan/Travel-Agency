@@ -24,8 +24,6 @@ class RegisteredTravelsFragment : Fragment() {
 
     private lateinit var viewModel: MainActivityViewModel
     lateinit var listView: ListView
-    private lateinit var sharedPreferences: SharedPreferences
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,16 +35,13 @@ class RegisteredTravelsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferences = MyApplication.getAppContext().getSharedPreferences("USER", MODE_PRIVATE)
-        val userMail = sharedPreferences.getString("Mail", "")
-        //val userPassword = sharedPreferences.getString("Password", "")
 
         listView = view?.findViewById<ListView>(R.id.list_view_costumer)!!
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         viewModel.getCostumerTravels().observe(viewLifecycleOwner, Observer { travels ->
-            val tmp = ArrayList(viewModel.getUserList(userMail!!))
+            val tmp = ArrayList(travels)
 
             //create adapter object
             val adapter = AdapterCostumer(requireContext(), tmp)

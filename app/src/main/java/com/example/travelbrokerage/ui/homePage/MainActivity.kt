@@ -34,11 +34,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        registeredTravelsFragment = RegisteredTravelsFragment()
+       /* registeredTravelsFragment = RegisteredTravelsFragment()
         companyTravelsFragment = CompanyTravelsFragment()
-        historyTravelsFragment = HistoryTravelsFragment()
-
-
+        historyTravelsFragment = HistoryTravelsFragment()*/
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
@@ -66,10 +64,15 @@ class MainActivity : AppCompatActivity() {
                 dl.closeDrawer(nv)
                 return when (id) {
                     R.id.RegisteredTravelsFragment -> {
-                        replaceFragment(registeredTravelsFragment)
+                        //replaceFragment(registeredTravelsFragment)
+                        supportFragmentManager.commit {
+                            replace<RegisteredTravelsFragment>(R.id.frameLayout)
+                            setReorderingAllowed(true)
+                        }
                         true
                     }
                     R.id.CompanyTravelsFragment -> {
+                        //replaceFragment(companyTravelsFragment)
                         supportFragmentManager.commit {
                             replace<CompanyTravelsFragment>(R.id.frameLayout)
                             setReorderingAllowed(true)
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.HistoryTravelsFragment -> {
+                        //replaceFragment(historyTravelsFragment)
                         supportFragmentManager.commit {
                             replace<HistoryTravelsFragment>(R.id.frameLayout)
                             setReorderingAllowed(true)
