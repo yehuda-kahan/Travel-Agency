@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.lifecycle.Observer
 import com.example.travelbrokerage.R
+import com.example.travelbrokerage.adapters.AdapterCompany
 import com.example.travelbrokerage.adapters.AdapterCostumer
 import com.example.travelbrokerage.ui.homePage.MainActivityViewModel
 
@@ -31,11 +32,11 @@ class CompanyTravelsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-        viewModel.getCostumerTravels().observe(viewLifecycleOwner, Observer { travels ->
+        viewModel.getCompanyTravels().observe(viewLifecycleOwner, Observer { travels ->
             val tmp = ArrayList(travels)
 
             //create adapter object
-            val adapter = AdapterCostumer(requireContext(),viewModel, tmp)
+            val adapter = AdapterCompany(requireContext(),viewModel, tmp)
 
             //set custom adapter as adapter to our list view
             listView.adapter = adapter

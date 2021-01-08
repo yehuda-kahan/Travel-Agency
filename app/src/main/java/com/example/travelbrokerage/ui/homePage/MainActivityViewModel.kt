@@ -28,13 +28,15 @@ class MainActivityViewModel : ViewModel() {
         travelRepo.setNotifyToTravelListListener {
             travelsList = travelRepo.allTravels
             costumerList.value = getUserList(userMail!!)
-            //companyList.value = getCompanyList(userMail!!)
+            companyList.value = travelsList
             //historyList.value = getHistoryList(userMail!!)
         }
     }
 
     //
     fun getCostumerTravels(): LiveData<List<Travel>> = costumerList
+
+    fun getCompanyTravels(): LiveData<List<Travel>> = companyList
 
     fun loadCostumerList() {
         costumerList.value = travelsList
@@ -66,4 +68,8 @@ class MainActivityViewModel : ViewModel() {
     fun updateTravel(currentItem: Travel) {
         travelRepo.updateTravel(currentItem)
     }
+
+
+
+
 }

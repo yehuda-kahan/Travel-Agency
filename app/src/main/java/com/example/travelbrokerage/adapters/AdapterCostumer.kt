@@ -23,7 +23,7 @@ import java.util.*
 class AdapterCostumer(
     private val context: Context,
     private val viewModel: MainActivityViewModel,
-    private val costumerList: ArrayList<Travel>
+    private val costumerList: ArrayList<Travel>,
 ) :
     BaseAdapter() {
 
@@ -65,18 +65,10 @@ class AdapterCostumer(
         viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
         viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
             val tempview = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_view) as View
-            // val tv = tempview.findViewById<View>(R.id.number) as TextView
-            val pos = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_pos) as Int
-            //  val number = tv.text.toString().toInt() + 1
-            //  tv.text = number.toString()
-            // MainActivity.modelArrayList.get(pos).setNumber(number)
             val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
 
-            currentItem.requestType =
-                Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
-            if (currentItem.requestType == Travel.RequestType.ACCEPTED)//choose Accepted
-
+            currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
                 if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal)
                     currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
             viewModel.updateTravel(currentItem)
