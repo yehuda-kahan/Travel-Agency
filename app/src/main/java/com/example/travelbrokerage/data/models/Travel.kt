@@ -27,6 +27,7 @@ class Travel {
     var clientName: String? = null
     var clientPhone: String? = null
     var clientEmail: String? = null
+    var companyEmail: String? = null
 
     var numOfTravelers: Int? = null
 

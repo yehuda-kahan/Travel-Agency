@@ -17,11 +17,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.ui.homePage.MainActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import kotlin.concurrent.thread
 
 
 class LoginActivity : AppCompatActivity() {

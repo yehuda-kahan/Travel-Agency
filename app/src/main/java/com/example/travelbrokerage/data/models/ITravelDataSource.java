@@ -14,6 +14,8 @@ public interface ITravelDataSource {
 
     MutableLiveData<Boolean> getIsSuccess();
 
+    List<Travel> loadData();
+
     interface NotifyToTravelListListener {
         void onTravelsChanged();
     }

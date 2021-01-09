@@ -12,6 +12,8 @@ import com.example.travelbrokerage.data.models.Travel;
 import com.example.travelbrokerage.data.models.TravelFirebaseDataSource;
 import com.example.travelbrokerage.util.MyApplication;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +81,10 @@ public class TravelRepository implements ITravelRepository {
     @Override
     public LiveData<Boolean> getIsSuccess() {
         return travelDataSource.getIsSuccess();
+    }
+
+    @Override
+    public List<Travel> loadData() {
+        return travelDataSource.loadData();
     }
 }

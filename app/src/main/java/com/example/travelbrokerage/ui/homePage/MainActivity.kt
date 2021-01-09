@@ -23,31 +23,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dl: DrawerLayout
     private lateinit var t: ActionBarDrawerToggle
     private lateinit var nv: NavigationView
-    private lateinit var viewModel: MainActivityViewModel
-    private lateinit var registeredTravelsFragment: RegisteredTravelsFragment
-    private lateinit var companyTravelsFragment: CompanyTravelsFragment
-    private lateinit var historyTravelsFragment: HistoryTravelsFragment
-    private lateinit var sharedPreferences: SharedPreferences
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       /* registeredTravelsFragment = RegisteredTravelsFragment()
-        companyTravelsFragment = CompanyTravelsFragment()
-        historyTravelsFragment = HistoryTravelsFragment()*/
-
         dl = findViewById<DrawerLayout>(R.id.activity_main)
         t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
             override fun onDrawerClosed(view: View) {
-                supportActionBar!!.title = "Close"
                 // calling onPrepareOptionsMenu() to show action bar icons
                 supportInvalidateOptionsMenu()
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                supportActionBar!!.title = "Open"
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 supportInvalidateOptionsMenu()
             }

@@ -69,8 +69,10 @@ class AdapterCostumer(
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
 
             currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
-                if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal)
+                if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal){
                     currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
+                    currentItem.companyEmail = spinnerCompany.selectedItem.toString()
+                }
             viewModel.updateTravel(currentItem)
         })
 

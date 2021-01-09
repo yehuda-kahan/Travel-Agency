@@ -68,6 +68,11 @@ public class TravelFirebaseDataSource implements ITravelDataSource {
         });
     }
 
+    @Override
+    public List<Travel> loadData() {
+        return allTravelsList;
+    }
+
     public void setNotifyToTravelListListener(NotifyToTravelListListener l) {
         notifyToTravelListListener = l;
     }
