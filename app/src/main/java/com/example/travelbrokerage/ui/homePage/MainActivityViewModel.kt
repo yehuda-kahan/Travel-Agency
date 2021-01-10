@@ -1,7 +1,5 @@
 package com.example.travelbrokerage.ui.homePage
 
-import com.example.travelbrokerage.ui.homePage.MainActivity
-import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.*
 import com.example.travelbrokerage.data.models.Travel
@@ -9,9 +7,8 @@ import com.example.travelbrokerage.data.models.Travel.RequestType
 import com.example.travelbrokerage.data.repositories.ITravelRepository
 import com.example.travelbrokerage.data.repositories.TravelRepository
 import com.example.travelbrokerage.util.MyApplication
-import com.google.android.gms.common.internal.GetServiceRequest
-import com.google.firebase.auth.FirebaseAuth
 
+const val MAX_DISTANCE = 20
 
 // Represent the View Model of AddTravelActivity
 class MainActivityViewModel : ViewModel() {
@@ -30,7 +27,7 @@ class MainActivityViewModel : ViewModel() {
         travelRepo.setNotifyToTravelListListener {
             travelsList = travelRepo.allTravels
             costumerList.value = filterCostumerTravels(userMail!!)
-            companyList.value = filterCompanyTravels(travelsList)
+            companyList.value = travelsList
             //historyList.value = filterHistoryTravels(userMail!!)
         }
 
@@ -82,13 +79,15 @@ class MainActivityViewModel : ViewModel() {
         return tempList
     }
 
-    private fun filterCompanyTravels(travelsList: List<Travel>): List<Travel>? {
+   /* private fun filterCompanyTravels(travelsList: List<Travel>): List<Travel>? {
         val tempList = ArrayList<Travel>()
         val companyMail = userMail!!.substringBefore('@')
+
         for (travel in travelsList) {
             if (travel.requestType == RequestType.SENT) {
-
-
+                var dis = gps.calculateDistance(travel.address)
+                if (dis < MAX_DISTANCE)
+                    tempList.add(travel)
             } else if (travel.requestType != RequestType.SENT && travel.requestType != RequestType.PAYMENT) {
                 if (travel.companyEmail == companyMail){
                     tempList.add(travel)
@@ -96,7 +95,7 @@ class MainActivityViewModel : ViewModel() {
             }
         }
         return tempList
-    }
+    }*/
 
     fun updateTravel(currentItem: Travel) {
         travelRepo.updateTravel(currentItem)

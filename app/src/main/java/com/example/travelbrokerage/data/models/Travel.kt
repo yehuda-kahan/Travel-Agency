@@ -136,8 +136,8 @@ class Travel {
 
         @TypeConverter
         fun asString(warehouseUserLocation: UserLocation?): String {
-            return if (warehouseUserLocation == null) "" else warehouseUserLocation.getLon()
-                .toString() + " " + warehouseUserLocation.getLat()
+            return if (warehouseUserLocation == null) "" else warehouseUserLocation.lon
+                .toString() + " " + warehouseUserLocation.lat
         }
     }
 
@@ -165,15 +165,8 @@ class Travel {
     }
 
     class UserLocation() {
-        private var lat: Double? = null
-        private var lon: Double? = null
-        fun getLat(): Double? {
-            return lat
-        }
-
-        fun getLon(): Double? {
-            return lon
-        }
+        var lat: Double? = null
+        var lon: Double? = null
 
         constructor(lat: Double?, lon: Double?) : this() {
             this.lat = lat

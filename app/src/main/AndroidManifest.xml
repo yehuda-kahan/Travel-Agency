@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.travelbrokerage">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -17,7 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelBrokerage">
-
+        <activity
+            android:name=".util.GpsActivity"
+            android:label="@string/title_activity_gps"
+            android:theme="@style/Theme.TravelBrokerage.NoActionBar"></activity>
+        <activity
+            android:name=".util.PermActivity"
+            android:label="@string/title_activity_perm"
+            android:theme="@style/Theme.TravelBrokerage.NoActionBar" />
         <activity android:name=".ui.homePage.MainActivity" />
         <activity
             android:name=".ui.loginActivity.LoginActivity"

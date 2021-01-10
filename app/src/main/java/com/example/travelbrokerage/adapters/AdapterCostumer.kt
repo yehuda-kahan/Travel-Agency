@@ -94,7 +94,7 @@ class AdapterCostumer(
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address>
         try {
-            addresses = geocoder.getFromLocation(location.getLat()!!, location.getLon()!!, 1)
+            addresses = geocoder.getFromLocation(location.lat!!, location.lon!!, 1)
             if (addresses.isNotEmpty()) {
                 val cityName = addresses[0].getAddressLine(0)
                 //val stateName = addresses[0].getAddressLine(1)
