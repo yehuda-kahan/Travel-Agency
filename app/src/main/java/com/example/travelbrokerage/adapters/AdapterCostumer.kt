@@ -20,6 +20,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Defines how the values are displayed in the listView in RegisteredTravelsFragment
 class AdapterCostumer(
     private val context: Context,
     private val viewModel: MainActivityViewModel,
@@ -67,12 +68,15 @@ class AdapterCostumer(
             val tempview = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_view) as View
             val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
+            if (spinnerCompany.selectedItem == null) // there is no company suggest
+                return@OnClickListener
 
-            currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]  //as Travel.RequestType
-                if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal){
-                    currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
-                    currentItem.companyEmail = spinnerCompany.selectedItem.toString()
-                }
+            currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]
+            if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal) {
+
+                currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
+                currentItem.companyEmail = spinnerCompany.selectedItem.toString()
+            }
             viewModel.updateTravel(currentItem)
         })
 
@@ -80,6 +84,7 @@ class AdapterCostumer(
     }
 
     //ViewHolder inner class
+    // uses for getView() to prevent duplicate assignment of the fields of row_costumer.xml
     private class ViewHolder(view: View) {
 
         var address: TextView = view.findViewById<View>(R.id.address) as TextView
@@ -90,6 +95,7 @@ class AdapterCostumer(
         var confirmBtn: Button = view.findViewById(R.id.btn_confirm) as Button
     }
 
+    // the function get a location (latitude and longitude) and return the address in string
     private fun getPlace(location: UserLocation): String {
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address>
@@ -109,7 +115,7 @@ class AdapterCostumer(
         return "IOException ..."
     }
 
-    // Initial the spinner values
+    // Initial the spinner values according the companies in the hashMap
     private fun initializeCompaniesSpinner(spinner: Spinner, companies: HashMap<String, Boolean>) {
         val items: MutableList<String> = arrayListOf()
         for (company in companies) {
@@ -119,6 +125,7 @@ class AdapterCostumer(
         spinner.adapter = adapter
     }
 
+    // initialize the RequestType spinner on the view, according the previous type of request
     private fun initializeRequestTypeSpinner(spinner: Spinner, requestType: Travel.RequestType) {
         val requests = mutableListOf<String>(
             "התקבלה נסיעה",
@@ -143,7 +150,8 @@ class AdapterCostumer(
                 view.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD)
 
                 if ((requestType == Travel.RequestType.ACCEPTED && position == 0) ||
-                    (requestType == Travel.RequestType.RUN && (position==1 || position == 0 ))) {
+                    (requestType == Travel.RequestType.RUN && (position == 1 || position == 0))
+                ) {
                     // set the spinner disabled item text color
                     view.setTextColor(Color.LTGRAY)
                 }
@@ -166,5 +174,7 @@ class AdapterCostumer(
         }
         // finally, data bind spinner with adapter
         spinner.adapter = adapter
+        // set the selection of the spinner according the last selection type
+        spinner.setSelection(requestType.ordinal)
     }
 }
