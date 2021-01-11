@@ -27,7 +27,7 @@ class MainActivityViewModel : ViewModel() {
         travelRepo.setNotifyToTravelListListener {
             travelsList = travelRepo.allTravels
             costumerList.value = filterCostumerTravels(userMail!!)
-            companyList.value = travelsList
+            companyList.value = filterCompanyTravels()
             //historyList.value = filterHistoryTravels(userMail!!)
         }
 
@@ -48,7 +48,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun loadCompanyList() {
         travelsList = travelRepo.loadData()
-        companyList.value = travelsList
+        companyList.value = filterCompanyTravels()
     }
 
     fun loadCostumerList() {
@@ -79,13 +79,13 @@ class MainActivityViewModel : ViewModel() {
         return tempList
     }
 
-   /* private fun filterCompanyTravels(travelsList: List<Travel>): List<Travel>? {
+    private fun filterCompanyTravels(): List<Travel> {
         val tempList = ArrayList<Travel>()
         val companyMail = userMail!!.substringBefore('@')
 
         for (travel in travelsList) {
             if (travel.requestType == RequestType.SENT) {
-                var dis = gps.calculateDistance(travel.address)
+                val dis = MainActivity.calculateDistance(travel.address!!)
                 if (dis < MAX_DISTANCE)
                     tempList.add(travel)
             } else if (travel.requestType != RequestType.SENT && travel.requestType != RequestType.PAYMENT) {
@@ -95,7 +95,7 @@ class MainActivityViewModel : ViewModel() {
             }
         }
         return tempList
-    }*/
+    }
 
     fun updateTravel(currentItem: Travel) {
         travelRepo.updateTravel(currentItem)
