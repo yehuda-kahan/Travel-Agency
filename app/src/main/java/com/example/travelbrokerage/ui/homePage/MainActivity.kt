@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dl: DrawerLayout
     private lateinit var t: ActionBarDrawerToggle
     private lateinit var nv: NavigationView
-    private lateinit var locationManager: LocationManager
-    private lateinit var locationListener: LocationListener
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
 
@@ -159,11 +157,18 @@ class MainActivity : AppCompatActivity() {
             // for ActivityCompat#requestPermissions for more details.
             return
         }
+
         fusedLocationProviderClient.lastLocation.addOnCompleteListener(OnCompleteListener {
            val location = it.getResult()
             if (location != null){
                 currentLocation.lat = location.latitude
                 currentLocation.lon = location.longitude
+            }else{
+                Toast.makeText(
+                    this,
+                    "zain",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

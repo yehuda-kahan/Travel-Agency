@@ -24,17 +24,16 @@ import java.util.*
 class AdapterHistory (
     private val context: Context,
     private val viewModel: MainActivityViewModel,
-    private val companyList: ArrayList<Travel>,
+    private val historyList: ArrayList<Travel>,
 ) :
     BaseAdapter() {
 
-    private val sharedPreferences =
-        MyApplication.getAppContext().getSharedPreferences("USER", Context.MODE_PRIVATE)
-    private val userMail = sharedPreferences.getString("Mail", "")
+   /* private val sharedPreferences = MyApplication.getAppContext().getSharedPreferences("USER", Context.MODE_PRIVATE)
+    private val userMail = sharedPreferences.getString("Mail", "")*/
 
-    override fun getCount(): Int = companyList.size
+    override fun getCount(): Int = historyList.size
 
-    override fun getItem(position: Int): Any = companyList[position]
+    override fun getItem(position: Int): Any = historyList[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
@@ -46,7 +45,7 @@ class AdapterHistory (
         var convertView = _convertView
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.row_company, parent, false)
+            convertView = LayoutInflater.from(context).inflate(R.layout.row_history, parent, false)
             viewHolder = ViewHolder(convertView)
             convertView!!.tag = viewHolder
         } else {
@@ -55,39 +54,19 @@ class AdapterHistory (
 
         val currentItem = getItem(position) as Travel
 
-        viewHolder.address.text = getPlace(currentItem.address!!)
-        viewHolder.destination.text = getPlace(currentItem.travelLocations[0])
-        viewHolder.name.text = currentItem.clientName
-        viewHolder.numTravelers.text = currentItem.numOfTravelers.toString()
+        viewHolder.companyName.text = currentItem.companyEmail.toString()
 
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy");
-        val date = dateFormat.format(currentItem.travelDate!!.time)
+        //viewHolder.kilometers.text = TODO
 
-        viewHolder.startDay.text = date
-        val diff: Long = currentItem.arrivalDate!!.time - currentItem.arrivalDate!!.time
-        val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24
-        viewHolder.numDays.text = days.toString()
+        viewHolder.statBtn.setOnClickListener {
+            currentItem.requestType = Travel.RequestType.PAYMENT
+            viewModel.updateTravel(currentItem)
+        }
 
-        val check = currentItem.company.get(userMail) == true
-        viewHolder.checkBox.isChecked = check
-
-        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_view, convertView)
-        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
-        viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
-            if (currentItem.company.get(userMail!!) == null) {
-                val mail = userMail.substringBefore('@')
-                currentItem.company.put(mail, false)
-                viewModel.updateTravel(currentItem)
-            }
-        })
-
-        viewHolder.mailBtn.setOnClickListener {
-            val to = currentItem.clientEmail
-            val subject = "הזמנת נסיעה"
-            val message = "שלום וברכה, ברצוננו להגיש הצעה מקסימה ומיוחדת במינה"
+        viewHolder.callBtn.setOnClickListener {
+            val to = currentItem.companyEmail
+            val subject = "תשלום נסיעה"
+            val message = "שלום וברכה, ברצוני להזכיר לך שעליך לשלם את סכום תיווך הנסיעה"
 
             val intent = Intent(Intent.ACTION_SEND)
             val addressees = arrayOf(to)
@@ -101,40 +80,15 @@ class AdapterHistory (
                 null
             )
         }
-
         return convertView
     }
 
     //ViewHolder inner class
     private class ViewHolder(view: View) {
 
-        var name: TextView = view.findViewById<View>(R.id.costumer_name) as TextView
-        var address: TextView = view.findViewById<View>(R.id.address_company) as TextView
-        var destination: TextView = view.findViewById<View>(R.id.destination_company) as TextView
-        var numTravelers: TextView = view.findViewById<View>(R.id.num_of_travelers) as TextView
-        var numDays: TextView = view.findViewById<View>(R.id.num_days) as TextView
-        var startDay: TextView = view.findViewById<View>(R.id.start_day) as TextView
-        var mailBtn: Button = view.findViewById(R.id.btn_mail) as Button
-        var confirmBtn: Button = view.findViewById(R.id.btn_confirm_company) as Button
-        var checkBox: CheckBox = view.findViewById(R.id.check_box_company) as CheckBox
-    }
-
-    private fun getPlace(location: Travel.UserLocation): String {
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address>
-        try {
-            addresses = geocoder.getFromLocation(location.lat!!, location.lon!!, 1)
-            if (addresses.isNotEmpty()) {
-                val cityName = addresses[0].getAddressLine(0)
-                //val stateName = addresses[0].getAddressLine(1)
-                //val countryName = addresses[0].getAddressLine(2)
-                return "$cityName"
-            }
-            return "no place"
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return "IOException ..."
+        var companyName: TextView = view.findViewById<View>(R.id.company_name) as TextView
+        var kilometers: TextView = view.findViewById<View>(R.id.num_kilometer) as TextView
+        var statBtn: Button = view.findViewById(R.id.btn_change_status) as Button
+        var callBtn: Button = view.findViewById(R.id.btn_call_company) as Button
     }
 }
