@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -24,6 +25,9 @@ import com.example.travelbrokerage.data.models.Travel
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
 import com.example.travelbrokerage.ui.registeredTravelsFragment.RegisteredTravelsFragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -36,11 +40,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nv: NavigationView
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
+    private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
 
     // Static field and fun to get the current location
     companion object{
-        var currentLocation: Travel.UserLocation? = null
+        private var currentLocation = Travel.UserLocation()
 
         fun calculateDistance(userLocation: Travel.UserLocation): Float {
             val latDistance = Math.toRadians(currentLocation!!.lat!! - userLocation.lat!!)
@@ -59,20 +64,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Get the current location
-        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
-        // Define a listener that responds to location updates
-        locationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                currentLocation!!.lat = location.latitude
-                currentLocation!!.lon = location.longitude
-            }
-            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-        }
-        getLocation()
-
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        initializeLocation()
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
             t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
@@ -144,20 +137,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     //     Check the SDK version and whether the permission is already granted or not.
-    private fun getLocation() {
+    private fun initializeLocation() {
 
         //     Check the SDK version and whether the permission is already granted or not.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), 5)
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getLocation()
         } else {
-            // Android version is lesser than 6.0 or the permission is already granted.
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                0,
-                0f,
-                locationListener
-            )
+            ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), 44)
         }
+    }
+
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener(OnCompleteListener {
+           val location = it.getResult()
+            if (location != null){
+                currentLocation.lat = location.latitude
+                currentLocation.lon = location.longitude
+            }
+        })
     }
 
     @SuppressLint("MissingPermission")
@@ -166,15 +174,15 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == 5) {
+        if (requestCode == 44) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    0,
-                    0f,
-                    locationListener
-                )
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener(OnCompleteListener {
+                    val location = it.getResult()
+                    if (location != null){
+                        currentLocation.lat = location.latitude
+                        currentLocation.lon = location.longitude
+                    }
+                })
             } else {
                 Toast.makeText(
                     this,
