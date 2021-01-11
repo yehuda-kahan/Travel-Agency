@@ -28,13 +28,10 @@ class MainActivityViewModel : ViewModel() {
             travelsList = travelRepo.allTravels
             costumerList.value = filterCostumerTravels(userMail!!)
             companyList.value = filterCompanyTravels()
-            //historyList.value = filterHistoryTravels(userMail!!)
+            historyList.value = filterHistoryTravels()
         }
-
-
     }
-
-    //
+    
     fun getCostumerTravels(): LiveData<List<Travel>> = costumerList
 
     fun getCompanyTravels(): LiveData<List<Travel>> = companyList
@@ -43,7 +40,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun loadHistoryList() {
         travelsList = travelRepo.loadData()
-        historyList.value = travelsList
+        historyList.value = filterHistoryTravels()
     }
 
     fun loadCompanyList() {
@@ -85,7 +82,7 @@ class MainActivityViewModel : ViewModel() {
 
         for (travel in travelsList) {
             if (travel.requestType == RequestType.SENT) {
-                val dis = MainActivity.calculateDistance(travel.address!!)
+                val dis = MainActivity.calculateDistance(MainActivity.currentLocation,travel.address!!)
                 if (dis < MAX_DISTANCE)
                     tempList.add(travel)
             } else if (travel.requestType != RequestType.SENT && travel.requestType != RequestType.PAYMENT) {
@@ -94,6 +91,14 @@ class MainActivityViewModel : ViewModel() {
                 }
             }
         }
+        return tempList
+    }
+
+    private fun filterHistoryTravels(): List<Travel>{
+        val tempList = ArrayList<Travel>()
+        for (travel in travelsList)
+            if (travel.requestType == RequestType.CLOSE)
+                tempList.add(travel)
         return tempList
     }
 

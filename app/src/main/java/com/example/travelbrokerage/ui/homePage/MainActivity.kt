@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import kotlin.math.*
 
 const val AVERAGE_RADIUS_OF_EARTH = 6371.0
 
@@ -43,18 +44,18 @@ class MainActivity : AppCompatActivity() {
 
     // Static field and fun to get the current location
     companion object{
-        private var currentLocation = Travel.UserLocation()
+         var currentLocation = Travel.UserLocation()
 
-        fun calculateDistance(userLocation: Travel.UserLocation): Float {
-            val latDistance = Math.toRadians(currentLocation!!.lat!! - userLocation.lat!!)
-            val lngDistance = Math.toRadians(currentLocation!!.lon!! - userLocation.lon!!)
-            val a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
-                    Math.cos(Math.toRadians(currentLocation!!.lat!!)) *
-                    Math.cos(Math.toRadians(userLocation.lat!!)) *
-                    Math.sin(lngDistance / 2) *
-                    Math.sin(lngDistance / 2)
-            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-            return (Math.round(AVERAGE_RADIUS_OF_EARTH * c)).toFloat()
+        fun calculateDistance(currentLocation: Travel.UserLocation, destLocation: Travel.UserLocation): Float {
+            val latDistance = Math.toRadians(currentLocation!!.lat!! - destLocation.lat!!)
+            val lngDistance = Math.toRadians(currentLocation!!.lon!! - destLocation.lon!!)
+            val a = sin(latDistance / 2) * sin(latDistance / 2) +
+                    cos(Math.toRadians(currentLocation!!.lat!!)) *
+                    cos(Math.toRadians(destLocation.lat!!)) *
+                    sin(lngDistance / 2) *
+                    sin(lngDistance / 2)
+            val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+            return ((AVERAGE_RADIUS_OF_EARTH * c).roundToInt()).toFloat()
         }
     }
 

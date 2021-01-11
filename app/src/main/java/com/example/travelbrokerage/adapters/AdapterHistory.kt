@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.data.models.Travel
+import com.example.travelbrokerage.ui.homePage.MainActivity
 import com.example.travelbrokerage.ui.homePage.MainActivityViewModel
 import com.example.travelbrokerage.util.MyApplication
 import java.io.IOException
@@ -56,7 +57,7 @@ class AdapterHistory (
 
         viewHolder.companyName.text = currentItem.companyEmail.toString()
 
-        //viewHolder.kilometers.text TODO
+        viewHolder.kilometers.text = MainActivity.calculateDistance(currentItem.address!!, currentItem.travelLocations[0]).toString()
 
         viewHolder.statBtn.setOnClickListener {
             currentItem.requestType = Travel.RequestType.PAYMENT
