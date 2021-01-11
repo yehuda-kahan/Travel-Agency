@@ -24,11 +24,8 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AdapterCompany(
-    private val context: Context,
-    private val viewModel: MainActivityViewModel,
-    private val companyList: ArrayList<Travel>,
-) :
+class AdapterCompany(private val context: Context,
+                     private val viewModel: MainActivityViewModel, private val companyList: ArrayList<Travel>) :
     BaseAdapter() {
 
     private val sharedPreferences =
@@ -63,25 +60,24 @@ class AdapterCompany(
         viewHolder.name.text = currentItem.clientName
         viewHolder.numTravelers.text = currentItem.numOfTravelers.toString()
 
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy");
-        val date = dateFormat.format(currentItem.travelDate!!.time)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy");
+        val date = dateFormat.format(currentItem.travelDate!!.time - (31556952000 * 1900) + 86400000)
 
         viewHolder.startDay.text = date
-        val diff: Long = currentItem.arrivalDate!!.time - currentItem.arrivalDate!!.time
+        val diff: Long = currentItem.arrivalDate!!.time - currentItem.travelDate!!.time
         val seconds = diff / 1000
         val minutes = seconds / 60
         val hours = minutes / 60
         val days = hours / 24
         viewHolder.numDays.text = days.toString()
 
-        val check = currentItem.company.get(userMail) == true
+        val mail = userMail!!.substringBefore('@')
+
+        val check = currentItem.company.get(mail) == true
         viewHolder.checkBox.isChecked = check
 
-        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_view, convertView)
-        viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
         viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
-            if (currentItem.company.get(userMail!!) == null) {
-                val mail = userMail.substringBefore('@')
+            if (currentItem.company.get(mail) == null) {
                 currentItem.company.put(mail, false)
                 viewModel.updateTravel(currentItem)
             }

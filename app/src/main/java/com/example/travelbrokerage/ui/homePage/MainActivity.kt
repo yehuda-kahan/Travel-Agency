@@ -164,11 +164,7 @@ class MainActivity : AppCompatActivity() {
                 currentLocation.lat = location.latitude
                 currentLocation.lon = location.longitude
             }else{
-                Toast.makeText(
-                    this,
-                    "zain",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this,"ERROR : location not found",Toast.LENGTH_SHORT).show()
             }
         })
     }

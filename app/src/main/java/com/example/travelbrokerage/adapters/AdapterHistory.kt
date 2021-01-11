@@ -56,7 +56,7 @@ class AdapterHistory (
 
         viewHolder.companyName.text = currentItem.companyEmail.toString()
 
-        //viewHolder.kilometers.text = TODO
+        //viewHolder.kilometers.text TODO
 
         viewHolder.statBtn.setOnClickListener {
             currentItem.requestType = Travel.RequestType.PAYMENT
@@ -64,7 +64,7 @@ class AdapterHistory (
         }
 
         viewHolder.callBtn.setOnClickListener {
-            val to = currentItem.companyEmail
+            val to = currentItem.companyEmail + "@gmail.com"
             val subject = "תשלום נסיעה"
             val message = "שלום וברכה, ברצוני להזכיר לך שעליך לשלם את סכום תיווך הנסיעה"
 

@@ -5,8 +5,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -24,13 +27,17 @@ class RegisteredTravelsFragment : Fragment() {
 
     private lateinit var viewModel: MainActivityViewModel
     lateinit var listView: ListView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.registered_travels_fragment, container, false)
+        val view = inflater.inflate(R.layout.registered_travels_fragment, container, false)
+        progressBar = view.findViewById(R.id.progress_bar)
+        progressBar.visibility = VISIBLE
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -42,7 +49,7 @@ class RegisteredTravelsFragment : Fragment() {
 
         viewModel.getCostumerTravels().observe(viewLifecycleOwner, Observer { travels ->
             val tmp = ArrayList(travels)
-
+            progressBar.visibility = INVISIBLE
             //create adapter object
             val adapter = AdapterCostumer(requireContext(),viewModel, tmp)
 
