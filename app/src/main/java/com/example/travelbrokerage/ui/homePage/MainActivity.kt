@@ -2,7 +2,7 @@ package com.example.travelbrokerage.ui.homePage
 
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -21,7 +21,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.data.models.Travel
-import com.example.travelbrokerage.data.models.Travel.UserLocation
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
 import com.example.travelbrokerage.ui.registeredTravelsFragment.RegisteredTravelsFragment
@@ -148,14 +147,41 @@ class MainActivity : AppCompatActivity() {
     private fun getLocation() {
 
         //     Check the SDK version and whether the permission is already granted or not.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Toast.makeText(this, "RequestPermission", Toast.LENGTH_LONG).show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION), 5)
         } else {
             // Android version is lesser than 6.0 or the permission is already granted.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0f,
+                locationListener
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+   override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 5) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "Until you grant the permission, we canot display the location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

@@ -16,10 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelBrokerage">
 
-        <activity
-            android:name=".util.GpsActivity"
-            android:label="@string/title_activity_gps"
-            android:theme="@style/Theme.TravelBrokerage.NoActionBar" />
+
         <activity android:name=".ui.homePage.MainActivity" />
         <activity
             android:name=".ui.loginActivity.LoginActivity"
