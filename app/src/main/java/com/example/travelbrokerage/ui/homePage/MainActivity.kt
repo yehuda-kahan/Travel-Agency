@@ -3,6 +3,7 @@ package com.example.travelbrokerage.ui.homePage
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -22,6 +23,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.travelbrokerage.R
 import com.example.travelbrokerage.data.models.Travel
+import com.example.travelbrokerage.service.BroadCastService
 import com.example.travelbrokerage.ui.companyTravelsFragment.CompanyTravelsFragment
 import com.example.travelbrokerage.ui.historyTravelsFragment.HistoryTravelsFragment
 import com.example.travelbrokerage.ui.registeredTravelsFragment.RegisteredTravelsFragment
@@ -63,8 +65,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Get GPS location
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         initializeLocation()
+
+        // Start service
+        startService(Intent(baseContext,BroadCastService::class.java))
 
         dl = findViewById<DrawerLayout>(R.id.activity_main)
             t = object : ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close) {
