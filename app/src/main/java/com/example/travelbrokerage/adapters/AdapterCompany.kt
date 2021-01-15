@@ -30,6 +30,7 @@ class AdapterCompany(private val context: Context,
 
     private val sharedPreferences =
         MyApplication.getAppContext().getSharedPreferences("USER", Context.MODE_PRIVATE)
+    //user mail is the mail of the company
     private val userMail = sharedPreferences.getString("Mail", "")
 
     override fun getCount(): Int = companyList.size
@@ -55,9 +56,13 @@ class AdapterCompany(private val context: Context,
 
         val currentItem = getItem(position) as Travel
 
+        //fill the textView address with the address of the travel
         viewHolder.address.text = getPlace(currentItem.address!!)
+        //fill the textView destination with the destination of the travel
         viewHolder.destination.text = getPlace(currentItem.travelLocations[0])
+        //fill the textView name with the client name of the travel
         viewHolder.name.text = currentItem.clientName
+        //fill the textView numTravelers with the numTravelers of the travel
         viewHolder.numTravelers.text = currentItem.numOfTravelers.toString()
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy");
@@ -69,13 +74,16 @@ class AdapterCompany(private val context: Context,
         val minutes = seconds / 60
         val hours = minutes / 60
         val days = hours / 24
+        //fill the textView numDays with the numDays that we calculate now in the travel
         viewHolder.numDays.text = days.toString()
-
+        //save in val mail the mail of the company without the finish of @gmail.com
         val mail = userMail!!.substringBefore('@')
 
+        //check is a boolean type, that tell us if the client confirm the suggest of the company
         val check = currentItem.company.get(mail) == true
         viewHolder.checkBox.isChecked = check
 
+        //if the company don't exist in the field company in the travel, we add him with false value
         viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
             if (currentItem.company.get(mail) == null) {
                 currentItem.company.put(mail, false)
@@ -83,6 +91,7 @@ class AdapterCompany(private val context: Context,
             }
         })
 
+        //if the company push on this button, this sent a generic mail to the costumer
         viewHolder.mailBtn.setOnClickListener {
             val to = currentItem.clientEmail
             val subject = "הזמנת נסיעה"

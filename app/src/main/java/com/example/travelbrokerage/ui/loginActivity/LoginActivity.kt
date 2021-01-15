@@ -22,15 +22,19 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
+    //mail edit text
     private lateinit var etMail: EditText
+    //password edit text
     private lateinit var etPassword: EditText
-   // private lateinit var btnLogin: MaterialButton
-  //  private lateinit var btnCreateAccount: MaterialButton
+    //Validation
     private lateinit var awesomeValidation: AwesomeValidation
+    //warning edit textView
     private lateinit var warningMassage: TextView
+    //progress bar
     private lateinit var progressBar: ProgressBar
-
+    //Firebase authentication
     private lateinit var mAuth: FirebaseAuth
+    //shared preferences
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
         updateFields()
     }
 
+    //login account with mail and password
     @SuppressLint("CommitPrefEdits")
     fun loginOnclick(view: View) {
         if (awesomeValidation.validate()) {
@@ -79,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    //create account with mail and password
     fun createAccountOnClick(view: View) {
         if (awesomeValidation.validate()) {
             warningMassage.text = ""
@@ -132,6 +138,7 @@ class LoginActivity : AppCompatActivity() {
         )
     }
 
+    //update the field of mail and password edit text
     private fun updateFields() {
         etMail.setText(sharedPreferences.getString("Mail", ""))
         etPassword.setText(sharedPreferences.getString("Password", ""))

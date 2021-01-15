@@ -29,9 +29,6 @@ class AdapterHistory (
 ) :
     BaseAdapter() {
 
-   /* private val sharedPreferences = MyApplication.getAppContext().getSharedPreferences("USER", Context.MODE_PRIVATE)
-    private val userMail = sharedPreferences.getString("Mail", "")*/
-
     override fun getCount(): Int = historyList.size
 
     override fun getItem(position: Int): Any = historyList[position]
@@ -54,16 +51,18 @@ class AdapterHistory (
         }
 
         val currentItem = getItem(position) as Travel
-
+        //fill the textView companyName with the companyName of the travel
         viewHolder.companyName.text = currentItem.companyEmail.toString()
-
+        //calculate the sum of kilometer of the travel
         viewHolder.kilometers.text = MainActivity.calculateDistance(currentItem.address!!, currentItem.travelLocations[0]).toString()
 
+        //change status to PAYMENT
         viewHolder.statBtn.setOnClickListener {
             currentItem.requestType = Travel.RequestType.PAYMENT
             viewModel.updateTravel(currentItem)
         }
 
+        //send mail to the company remember to pay
         viewHolder.callBtn.setOnClickListener {
             val to = currentItem.companyEmail + "@gmail.com"
             val subject = "תשלום נסיעה"

@@ -52,9 +52,12 @@ class AdapterCostumer(
 
         val currentItem = getItem(position) as Travel
 
+        //fill the textView address with the address of the travel
         viewHolder.address.text = getPlace(currentItem.address!!)
+        //fill the textView destination with the destination of the travel
         viewHolder.destination.text = getPlace(currentItem.travelLocations[0])
 
+        //fill the textView date with the date of the travel
         val dateFormat = SimpleDateFormat("MM/dd/yyyy");
         val date = dateFormat.format(currentItem.travelDate!!.time)
         viewHolder.date.text = date
@@ -64,14 +67,18 @@ class AdapterCostumer(
 
         viewHolder.confirmBtn.setTag(R.integer.confirm_btn_view, convertView)
         viewHolder.confirmBtn.setTag(R.integer.confirm_btn_pos, position)
+
+        //costumer push confirm on suggest of company
         viewHolder.confirmBtn.setOnClickListener(View.OnClickListener {
             val tempview = viewHolder.confirmBtn.getTag(R.integer.confirm_btn_view) as View
             val spinnerRequestType = tempview.findViewById<Spinner>(R.id.status)
             val spinnerCompany = tempview.findViewById<Spinner>(R.id.companies)
-            if (spinnerCompany.selectedItem == null) // there is no company suggest
+            // there is no company suggest
+            if (spinnerCompany.selectedItem == null)
                 return@OnClickListener
 
             currentItem.requestType = Travel.RequestType.values()[spinnerRequestType.selectedItemPosition + 1]
+            //check if the costumer do ACCEPTED
             if (spinnerRequestType.selectedItemPosition + 1 == Travel.RequestType.ACCEPTED.ordinal) {
 
                 currentItem.company.put(spinnerCompany.selectedItem.toString(), true)
@@ -165,8 +172,10 @@ class AdapterCostumer(
             }
 
             override fun isEnabled(position: Int): Boolean {
+                //when the requestType is ACCEPTED, the costumer cant push on ACCEPTED
                 if (requestType == Travel.RequestType.ACCEPTED && position == 0)
                     return false
+                //when the requestType is RUN, the costumer cant push on ACCEPTED or RUN
                 if (requestType == Travel.RequestType.RUN && (position == 1 || position == 0))
                     return false
                 return true

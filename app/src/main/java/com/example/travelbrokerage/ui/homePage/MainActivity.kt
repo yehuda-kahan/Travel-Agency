@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
          var currentLocation = Travel.UserLocation()
 
+        //calculate distance between the company(currentLocation) to costumer(destLocation)
         fun calculateDistance(currentLocation: Travel.UserLocation, destLocation: Travel.UserLocation): Float {
             val latDistance = Math.toRadians(currentLocation!!.lat!! - destLocation.lat!!)
             val lngDistance = Math.toRadians(currentLocation!!.lon!! - destLocation.lon!!)

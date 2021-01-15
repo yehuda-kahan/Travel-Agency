@@ -32,7 +32,9 @@ class CompanyTravelsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
+        //observer to mutable liveData of the company
         viewModel.getCompanyTravels().observe(viewLifecycleOwner, Observer { travels ->
+            //tmp is the array of travelCompany after the change
             val tmp = ArrayList(travels)
 
             //create adapter object

@@ -45,7 +45,9 @@ class RegisteredTravelsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
+        //observer to mutable liveData of the costumer
         viewModel.getCostumerTravels().observe(viewLifecycleOwner, Observer { travels ->
+            //tmp is the travelCompany after the changes
             val tmp = ArrayList(travels)
 
             //create adapter object

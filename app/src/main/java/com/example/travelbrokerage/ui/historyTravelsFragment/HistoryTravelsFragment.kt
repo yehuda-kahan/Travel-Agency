@@ -33,12 +33,15 @@ class HistoryTravelsFragment : Fragment() {
 
          val sharedPreferences = MyApplication.getAppContext().getSharedPreferences("USER", Context.MODE_PRIVATE)
          val userMail = sharedPreferences.getString("Mail", "")
+        //the owner is zevi3190 or yehudajka
         if (userMail == "zevi3190@gmail.com" || userMail == "yehudajka@gmail.com") {
             listView = view?.findViewById<ListView>(R.id.list_view_history)!!
 
             viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
+            //observer to mutable liveData of the history
             viewModel.getHistoryTravels().observe(viewLifecycleOwner, Observer { travels ->
+                //tmp is the travelHistory after the changes
                 val tmp = ArrayList(travels)
 
                 //create adapter object
