@@ -7,9 +7,55 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/assistant_semibold"
+            android:textSize="45sp"
+            android:layout_gravity="center"
+            android:text="@string/welcome"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/assistant_semibold"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            android:text="@string/toBrokerage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/assistant_semibold"
+            android:textSize="30sp"
+            android:layout_gravity="center"
+            android:text="@string/select_menu_item"/>
+
+        <ImageView
+            android:id="@+id/bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="110dp"
+            android:maxWidth="300dp"
+            android:maxHeight="200dp"
+            android:scaleType="fitStart"
+            android:layout_gravity="center"
+            android:src="@drawable/bus"/>
+      </LinearLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout"

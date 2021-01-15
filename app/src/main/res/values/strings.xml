@@ -49,5 +49,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_gps">GpsActivity</string>
     <string name="paid">שולם</string>
+    <string name="select_menu_item">אנא בחר את התפריט הרצוי</string>
 
 </resources>
