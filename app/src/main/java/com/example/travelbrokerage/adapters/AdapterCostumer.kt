@@ -58,7 +58,7 @@ class AdapterCostumer(
         viewHolder.destination.text = getPlace(currentItem.travelLocations[0])
 
         //fill the textView date with the date of the travel
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy");
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy");
         val date = dateFormat.format(currentItem.travelDate!!.time)
         viewHolder.date.text = date
 

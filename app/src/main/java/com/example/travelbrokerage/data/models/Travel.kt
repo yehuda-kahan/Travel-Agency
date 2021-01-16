@@ -99,6 +99,8 @@ class Travel {
         @TypeConverter
         fun fromString(value: String?): HashMap<String, Boolean>? {
             if (value == null || value.isEmpty()) return null
+            if (value == "null")
+                return HashMap()
             val mapString =
                 value.split(",").toTypedArray() //split map into array of (string,boolean) strings
             val hashMap = HashMap<String, Boolean>()
@@ -117,6 +119,8 @@ class Travel {
         @TypeConverter
         fun asString(map: HashMap<String?, Boolean?>?): String? {
             if (map == null) return null
+            if (map.size == 0)
+                return "null"
             val mapString = StringBuilder()
             for ((key, value) in map) mapString.append(
                 key
@@ -155,9 +159,6 @@ class Travel {
 
         @TypeConverter
         fun toTravelLocations(TravelLocationsString: String): List<UserLocation>? {
-            if (TravelLocationsString == null) {
-                return null
-            }
             val gson = Gson()
             val type: Type = object : TypeToken<List<UserLocation?>?>() {}.getType()
             return gson.fromJson<List<UserLocation>>(TravelLocationsString, type)

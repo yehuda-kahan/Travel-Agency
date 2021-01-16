@@ -14,12 +14,16 @@ const val MAX_DISTANCE = 20
 // Represent the View Model of AddTravelActivity
 class MainActivityViewModel : ViewModel() {
 
+
     //all the travel list
     private var travelsList: List<Travel> = ArrayList<Travel>()
+
     //all the travel of the costumer after filter
     private var costumerList: MutableLiveData<List<Travel>> = MutableLiveData()
+
     //all the travel of the company after filter
     private var companyList: MutableLiveData<List<Travel>> = MutableLiveData()
+
     //all the travel of the history after filter
     private var historyList: MutableLiveData<List<Travel>> = MutableLiveData()
 
@@ -30,14 +34,17 @@ class MainActivityViewModel : ViewModel() {
     private var travelRepo: ITravelRepository = TravelRepository()
 
     init {
-        travelRepo.setNotifyToTravelListListener {
-            travelsList = travelRepo.allTravels
+        travelRepo.allTravels.observeForever {
+            travelsList = it
             costumerList.value = filterCostumerTravels(userMail!!)
             companyList.value = filterCompanyTravels()
             historyList.value = filterHistoryTravels()
         }
+        travelRepo.setNotifyToTravelListListener {
+
+        }
     }
-    
+
     fun getCostumerTravels(): LiveData<List<Travel>> = costumerList
 
     fun getCompanyTravels(): LiveData<List<Travel>> = companyList
@@ -45,17 +52,17 @@ class MainActivityViewModel : ViewModel() {
     fun getHistoryTravels(): LiveData<List<Travel>> = historyList
 
     fun loadHistoryList() {
-        travelsList = travelRepo.loadData()
+        //travelsList = travelRepo.loadData()
         historyList.value = filterHistoryTravels()
     }
 
     fun loadCompanyList() {
-        travelsList = travelRepo.loadData()
+        //travelsList = travelRepo.loadData()
         companyList.value = filterCompanyTravels()
     }
 
     fun loadCostumerList() {
-        travelsList = travelRepo.loadData()
+        //travelsList = travelRepo.loadData()
         costumerList.value = filterCostumerTravels(userMail!!)
     }
 
@@ -91,14 +98,15 @@ class MainActivityViewModel : ViewModel() {
             //the status of requestType is SENT
             if (travel.requestType == RequestType.SENT) {
                 //calculate the distanse
-                val dis = MainActivity.calculateDistance(MainActivity.currentLocation,travel.address!!)
+                val dis =
+                    MainActivity.calculateDistance(MainActivity.currentLocation, travel.address!!)
                 //if distance appropriate
                 if (dis < MAX_DISTANCE)
                     tempList.add(travel)
                 //the status of requestType is ACCEPT or RUN or CLOSE
             } else if (travel.requestType != RequestType.SENT && travel.requestType != RequestType.PAYMENT) {
                 //Brings only the approved travels to this company
-                if (travel.companyEmail == companyMail){
+                if (travel.companyEmail == companyMail) {
                     tempList.add(travel)
                 }
             }
@@ -107,7 +115,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     //filter the travel to the history, that he will can see only who with CLOSE status
-    private fun filterHistoryTravels(): List<Travel>{
+    private fun filterHistoryTravels(): List<Travel> {
         val tempList = ArrayList<Travel>()
         for (travel in travelsList)
             if (travel.requestType == RequestType.CLOSE)

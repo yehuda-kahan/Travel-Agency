@@ -17,7 +17,7 @@ public abstract class RoomDataSource extends RoomDatabase {
 
     public static RoomDataSource getInstance(Context context) {
         if (database == null)
-            database = Room.databaseBuilder(context, RoomDataSource.class, DATABASE_NAME).allowMainThreadQueries().build();
+            database = Room.databaseBuilder(context, RoomDataSource.class, DATABASE_NAME).fallbackToDestructiveMigration().allowMainThreadQueries().build();
         return database;
     }
 

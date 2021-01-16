@@ -1,39 +1,26 @@
 package com.example.travelbrokerage.data.repositories;
 
-import android.app.Application;
+
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.travelbrokerage.data.models.IHistoryDataSource;
 import com.example.travelbrokerage.data.models.ITravelDataSource;
 import com.example.travelbrokerage.data.models.HistoryDataSource;
 import com.example.travelbrokerage.data.models.Travel;
 import com.example.travelbrokerage.data.models.TravelFirebaseDataSource;
 import com.example.travelbrokerage.util.MyApplication;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TravelRepository implements ITravelRepository {
 
-    private final ITravelDataSource  travelDataSource;
+    private final ITravelDataSource travelDataSource;
     private final IHistoryDataSource historyDataSource;
 
     private NotifyToTravelListListener notifyToTravelListListenerRepo;
 
     private List<Travel> travelList = new ArrayList<>();
-
-    //private final MutableLiveData<List<Travel>> mutableLiveData = new MutableLiveData<>();
-
-    /*private static TravelRepository instance;
-    public static TravelRepository getInstance(Application application) {
-        if (instance == null)
-            instance = new TravelRepository(application);
-        return instance;
-    }*/
 
     public TravelRepository() {
 
@@ -44,12 +31,12 @@ public class TravelRepository implements ITravelRepository {
             @Override
             public void onTravelsChanged() {
                 travelList = travelDataSource.getAllTravels();
-                //mutableLiveData.setValue(travelList);
 
-               /* historyDataSource.clearTable();
-                historyDataSource.addTravel(travelList);*/
+                // Entering the updating data to the ROOM Database
+                historyDataSource.clearTable();
+                historyDataSource.addTravel(travelList);
                 //Notifies viewModel of a change in the database
-                if (notifyToTravelListListenerRepo != null){
+                if (notifyToTravelListListenerRepo != null) {
                     notifyToTravelListListenerRepo.onTravelsChanged();
                 }
             }
@@ -74,8 +61,9 @@ public class TravelRepository implements ITravelRepository {
     }
 
     @Override
-    public List<Travel> getAllTravels()  {
-         return travelList;
+    public LiveData<List<Travel>> getAllTravels() {
+        //return travelList;
+        return historyDataSource.getTravels();
     }
 
     @Override
@@ -84,7 +72,7 @@ public class TravelRepository implements ITravelRepository {
     }
 
     @Override
-    public List<Travel> loadData() {
-        return travelDataSource.loadData();
+    public LiveData<List<Travel>> loadData() {
+        return historyDataSource.loadData();
     }
 }

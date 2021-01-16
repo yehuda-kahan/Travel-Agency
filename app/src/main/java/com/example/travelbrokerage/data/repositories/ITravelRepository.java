@@ -14,11 +14,11 @@ public interface ITravelRepository {
 
     void updateTravel(Travel travel);
 
-    List<Travel> getAllTravels();
+    LiveData<List<Travel>> getAllTravels();
 
     LiveData<Boolean> getIsSuccess();
 
-    List<Travel> loadData();
+    LiveData<List<Travel>> loadData();
 
     interface NotifyToTravelListListener {
         void onTravelsChanged();

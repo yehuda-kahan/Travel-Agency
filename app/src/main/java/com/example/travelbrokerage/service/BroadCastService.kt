@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener
 class BroadCastService : Service() {
 
     private val dataBase = FirebaseDatabase.getInstance()
-    private val numOfTravelsRef = dataBase.getReference("isTravelChange")
+    private val numOfTravelsRef = dataBase.getReference("isTravelAdded")
 
     override fun onBind(intent: Intent): IBinder? {
         return null

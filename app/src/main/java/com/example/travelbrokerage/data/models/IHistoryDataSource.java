@@ -18,4 +18,6 @@ public interface IHistoryDataSource {
     LiveData<List<Travel>> getTravels();
 
     LiveData<Travel> getTravel(String id);
+
+    LiveData<List<Travel>> loadData();
 }
