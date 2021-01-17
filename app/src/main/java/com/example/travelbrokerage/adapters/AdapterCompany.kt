@@ -66,10 +66,14 @@ class AdapterCompany(private val context: Context,
         viewHolder.numTravelers.text = currentItem.numOfTravelers.toString()
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy");
-        val date = dateFormat.format(currentItem.travelDate!!.time - (31556952000 * 1900) + 86400000)
+        //val date = dateFormat.format(currentItem.travelDate!!.time)
 
-        viewHolder.startDay.text = date
-        val diff: Long = currentItem.arrivalDate!!.time - currentItem.travelDate!!.time
+        viewHolder.startDay.text = currentItem.travelDate
+
+        val tDate = dateFormat.parse(currentItem.travelDate!!)
+        val aDate = dateFormat.parse(currentItem.arrivalDate!!)
+
+        val diff: Long = aDate.time - tDate.time
         val seconds = diff / 1000
         val minutes = seconds / 60
         val hours = minutes / 60

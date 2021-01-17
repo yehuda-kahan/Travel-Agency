@@ -8,8 +8,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Travel.class}, version = 1, exportSchema = false)
-@TypeConverters({Travel.UserLocationListConverter.class, Travel.RequestTypeConverter.class, Travel.DateConverter.class, Travel.UserLocationConverter.class, Travel.CompanyConverter.class})
+@Database(entities = {Travel.class}, version = 2, exportSchema = false)
+@TypeConverters({Travel.UserLocationListConverter.class, Travel.RequestTypeConverter.class, Travel.UserLocationConverter.class, Travel.CompanyConverter.class})
 public abstract class RoomDataSource extends RoomDatabase {
 
     public static final String DATABASE_NAME = "travelsDB";

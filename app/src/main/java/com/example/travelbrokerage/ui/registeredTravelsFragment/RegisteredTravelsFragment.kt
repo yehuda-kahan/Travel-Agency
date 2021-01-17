@@ -56,7 +56,6 @@ class RegisteredTravelsFragment : Fragment() {
             //set custom adapter as adapter to our list view
             listView.adapter = adapter
         })
-        viewModel.loadCostumerList()
-
+        //viewModel.loadCostumerList()
     }
 }

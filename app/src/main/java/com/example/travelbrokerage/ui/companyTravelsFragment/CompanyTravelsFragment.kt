@@ -43,6 +43,6 @@ class CompanyTravelsFragment : Fragment() {
             //set custom adapter as adapter to our list view
             listView.adapter = adapter
         })
-        viewModel.loadCompanyList()
+        //viewModel.loadCompanyList()
     }
 }

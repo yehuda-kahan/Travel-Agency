@@ -40,24 +40,28 @@ class Travel {
     @TypeConverters(RequestTypeConverter::class)
     var requestType: RequestType? = null
 
-    @TypeConverters(DateConverter::class)
-    var travelDate: Date? = null
+    //@TypeConverters(DateConverter::class)
+    var travelDate: String? = null
 
-    @TypeConverters(DateConverter::class)
-    var arrivalDate: Date? = null
+    //@TypeConverters(DateConverter::class)
+    var arrivalDate: String? = null
 
     @TypeConverters(CompanyConverter::class)
     var company: HashMap<String, Boolean> = HashMap()
 
-    class DateConverter {
+    /*class DateConverter {
 
         @SuppressLint("SimpleDateFormat")
-        private var format = SimpleDateFormat("dd-MM-yyyy")
+        private var format = SimpleDateFormat("dd/MM/yyyy")
 
         @TypeConverter
         @Throws(ParseException::class)
         fun fromTimestamp(date: String?): Date? {
-            return if (date == null) null else format.parse(date)
+            if (date == null)
+                return null else {
+                val d = format.parse(date)
+                return d
+            }
         }
 
         @TypeConverter
@@ -65,7 +69,7 @@ class Travel {
             return if (date == null) null else format.format(date)
         }
     }
-
+*/
     enum class RequestType {
         SENT, ACCEPTED, RUN, CLOSE, PAYMENT;
     }
@@ -140,8 +144,8 @@ class Travel {
 
         @TypeConverter
         fun asString(warehouseUserLocation: UserLocation?): String {
-            return if (warehouseUserLocation == null) "" else warehouseUserLocation.lon
-                .toString() + " " + warehouseUserLocation.lat
+            return if (warehouseUserLocation == null) "" else warehouseUserLocation.lat
+                .toString() + " " + warehouseUserLocation.lon
         }
     }
 
