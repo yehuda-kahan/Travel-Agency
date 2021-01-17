@@ -66,7 +66,6 @@ class AdapterCompany(private val context: Context,
         viewHolder.numTravelers.text = currentItem.numOfTravelers.toString()
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy");
-        //val date = dateFormat.format(currentItem.travelDate!!.time)
 
         viewHolder.startDay.text = currentItem.travelDate
 

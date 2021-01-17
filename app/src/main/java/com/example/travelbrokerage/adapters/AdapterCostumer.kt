@@ -58,8 +58,6 @@ class AdapterCostumer(
         viewHolder.destination.text = getPlace(currentItem.travelLocations[0])
 
         //fill the textView date with the date of the travel
-       /* val dateFormat = SimpleDateFormat("dd/MM/yyyy");
-        val date = dateFormat.format(currentItem.travelDate!!.time)*/
         viewHolder.date.text = currentItem.travelDate
 
         initializeCompaniesSpinner(viewHolder.companies, currentItem.company)

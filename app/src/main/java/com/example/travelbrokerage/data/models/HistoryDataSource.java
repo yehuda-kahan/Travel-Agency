@@ -10,12 +10,10 @@ import java.util.List;
 public class HistoryDataSource implements IHistoryDataSource {
 
     private final TravelDao travelDao;
-    private LiveData<List<Travel>> allTravels;
 
     public HistoryDataSource(Context context) {
         RoomDataSource database = RoomDataSource.getInstance(context);
         travelDao = database.getTravelDao();
-        //allTravels = travelDao.getAll(); // TODO why do this
     }
 
     public LiveData<List<Travel>> getTravels() {
@@ -40,7 +38,6 @@ public class HistoryDataSource implements IHistoryDataSource {
 
     public void clearTable() {
         travelDao.clear();
-        //new DeleteAllTravelsAsyncTask(travelDao).execute();
     }
 
     @Override
@@ -50,37 +47,8 @@ public class HistoryDataSource implements IHistoryDataSource {
 
     public void addTravel(List<Travel> travelList) {
         travelDao.insert(travelList);
-        //new InsertTravelAsyncTask(travelDao).execute(travelList);
     }
-
-   /* public static class InsertTravelAsyncTask extends AsyncTask<List<Travel>, Void, Void> {
-
-        private final TravelDao travelDao;
-
-        public InsertTravelAsyncTask(TravelDao travelDao) {
-            this.travelDao = travelDao;
-        }
-
-        @SafeVarargs
-        @Override
-        protected final Void doInBackground(List<Travel>... travels) {
-            travelDao.insert(travels[0]);
-            return null;
-        }
-    }*/
-
-   /* public static class DeleteAllTravelsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private TravelDao travelDao;
-
-        public DeleteAllTravelsAsyncTask(TravelDao travelDao) {
-            this.travelDao = travelDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            travelDao.clear();
-            return null;
-        }
-    }*/
 }
+
+
 

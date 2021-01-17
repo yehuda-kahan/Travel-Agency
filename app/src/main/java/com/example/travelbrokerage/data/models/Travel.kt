@@ -28,7 +28,8 @@ class Travel {
     var clientPhone: String? = null
     var clientEmail: String? = null
     var companyEmail: String? = null
-
+    var travelDate: String? = null
+    var arrivalDate: String? = null
     var numOfTravelers: Int? = null
 
     @TypeConverters(UserLocationConverter::class)
@@ -40,37 +41,10 @@ class Travel {
     @TypeConverters(RequestTypeConverter::class)
     var requestType: RequestType? = null
 
-    //@TypeConverters(DateConverter::class)
-    var travelDate: String? = null
-
-    //@TypeConverters(DateConverter::class)
-    var arrivalDate: String? = null
-
     @TypeConverters(CompanyConverter::class)
     var company: HashMap<String, Boolean> = HashMap()
 
-    /*class DateConverter {
-
-        @SuppressLint("SimpleDateFormat")
-        private var format = SimpleDateFormat("dd/MM/yyyy")
-
-        @TypeConverter
-        @Throws(ParseException::class)
-        fun fromTimestamp(date: String?): Date? {
-            if (date == null)
-                return null else {
-                val d = format.parse(date)
-                return d
-            }
-        }
-
-        @TypeConverter
-        fun dateToTimestamp(date: Date?): String? {
-            return if (date == null) null else format.format(date)
-        }
-    }
-*/
-    enum class RequestType {
+       enum class RequestType {
         SENT, ACCEPTED, RUN, CLOSE, PAYMENT;
     }
 

@@ -1,89 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:background="@drawable/shadow_drawable"
-    android:padding="2dp">
-
-    <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/costumer_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/address_company"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/destination_company"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/num_of_travelers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/num_days"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/numOfDays"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/start_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/startDayOfTravel"
-            android:layout_margin="2dp"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardBackgroundColor="#fdac53"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_mail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_mail"
-            android:shadowColor="@color/darker_gray"
-            app:cornerRadius="10dp"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="2dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_confirm_company"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/confirm"
-            android:shadowColor="@color/darker_gray"
-            app:cornerRadius="10dp"/>
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/check_box_company"
+            <TextView
+                android:id="@+id/costumer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/address_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/destination_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/num_of_travelers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/num_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="@string/numOfDays"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/start_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="@string/startDayOfTravel"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:clickable="false"
             android:layout_height="wrap_content"
-            android:text="@string/confirmTravelByCostumer" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/darker_gray"
+                android:text="@string/send_mail"
+                app:cornerRadius="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_confirm_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/darker_gray"
+                android:text="@string/confirm"
+                app:cornerRadius="10dp" />
+
+            <CheckBox
+                android:id="@+id/check_box_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="@string/confirmTravelByCostumer" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

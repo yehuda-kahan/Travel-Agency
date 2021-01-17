@@ -50,7 +50,6 @@ class HistoryTravelsFragment : Fragment() {
                 //set custom adapter as adapter to our list view
                 listView.adapter = adapter
             })
-            //viewModel.loadHistoryList()
         }else{
             Toast.makeText(context,"you not allow", Toast.LENGTH_SHORT).show()
         }

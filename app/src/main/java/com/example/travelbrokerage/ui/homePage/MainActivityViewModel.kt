@@ -41,7 +41,6 @@ class MainActivityViewModel : ViewModel() {
             historyList.value = filterHistoryTravels()
         }
         travelRepo.setNotifyToTravelListListener {
-
         }
     }
 
